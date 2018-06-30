@@ -1,6 +1,5 @@
 package com.kodachaya.gourmet.dto.auth.command;
 
-import java.util.Objects;
 
 public class SignInCommand {
     private String username;
