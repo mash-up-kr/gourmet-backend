@@ -1,5 +1,6 @@
 package com.kodachaya.gourmet.dto;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Objects;
 
@@ -8,15 +9,15 @@ public class MenuModel {
     private int id;
     private String name;
     private int price;
-    private String restaurantId;
-    private Date createdAt;
+    private boolean isWished;
+    private SimpleDateFormat wishedAt;
 
-    public MenuModel(int id, String name, int price, String restaurantId, Date createdAt) {
+    public MenuModel(int id, String name, int price, boolean isWished, SimpleDateFormat wishedAt) {
         this.id = id;
         this.name = name;
         this.price = price;
-        this.restaurantId = restaurantId;
-        this.createdAt = createdAt;
+        this.isWished = isWished;
+        this.wishedAt = wishedAt;
     }
 
     public int getId() {
@@ -43,20 +44,20 @@ public class MenuModel {
         this.price = price;
     }
 
-    public String getRestaurantId() {
-        return restaurantId;
+    public boolean isWished() {
+        return isWished;
     }
 
-    public void setRestaurantId(String restaurantId) {
-        this.restaurantId = restaurantId;
+    public void setWished(boolean wished) {
+        isWished = wished;
     }
 
-    public Date getCreatedAt() {
-        return createdAt;
+    public SimpleDateFormat getWishedAt() {
+        return wishedAt;
     }
 
-    public void setCreatedAt(Date createdAt) {
-        this.createdAt = createdAt;
+    public void setWishedAt(SimpleDateFormat wishedAt) {
+        this.wishedAt = wishedAt;
     }
 
     @Override
@@ -66,15 +67,15 @@ public class MenuModel {
         MenuModel menuModel = (MenuModel) o;
         return id == menuModel.id &&
                 price == menuModel.price &&
+                isWished == menuModel.isWished &&
                 Objects.equals(name, menuModel.name) &&
-                Objects.equals(restaurantId, menuModel.restaurantId) &&
-                Objects.equals(createdAt, menuModel.createdAt);
+                Objects.equals(wishedAt, menuModel.wishedAt);
     }
 
     @Override
     public int hashCode() {
 
-        return Objects.hash(id, name, price, restaurantId, createdAt);
+        return Objects.hash(id, name, price, isWished, wishedAt);
     }
 
     @Override
@@ -83,8 +84,8 @@ public class MenuModel {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", price=" + price +
-                ", restaurantId='" + restaurantId + '\'' +
-                ", createdAt=" + createdAt +
+                ", isWished=" + isWished +
+                ", wishedAt=" + wishedAt +
                 '}';
     }
 }
