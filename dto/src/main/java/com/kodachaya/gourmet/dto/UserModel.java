@@ -11,10 +11,10 @@ public class UserModel {
     private int wishCount;
     private int followingCount;
     private int follwerCount;
-    private  boolean isFolloweing;
+    private boolean isFollowing;
     private boolean isPublic;
 
-    public UserModel(int id, String username, String profileImage, int stampCount, int wishCount, int followingCount, int follwerCount, boolean isFolloweing, boolean isPublic) {
+    public UserModel(int id, String username, String profileImage, int stampCount, int wishCount, int followingCount, int follwerCount, boolean isFollowing, boolean isPublic) {
         this.id = id;
         this.username = username;
         this.profileImage = profileImage;
@@ -22,7 +22,7 @@ public class UserModel {
         this.wishCount = wishCount;
         this.followingCount = followingCount;
         this.follwerCount = follwerCount;
-        this.isFolloweing = isFolloweing;
+        this.isFollowing = isFollowing;
         this.isPublic = isPublic;
     }
 
@@ -82,12 +82,12 @@ public class UserModel {
         this.follwerCount = follwerCount;
     }
 
-    public boolean isFolloweing() {
-        return isFolloweing;
+    public boolean isFollowing() {
+        return isFollowing;
     }
 
-    public void setFolloweing(boolean followeing) {
-        isFolloweing = followeing;
+    public void setFollowing(boolean following) {
+        isFollowing = following;
     }
 
     public boolean isPublic() {
@@ -108,7 +108,7 @@ public class UserModel {
                 wishCount == userModel.wishCount &&
                 followingCount == userModel.followingCount &&
                 follwerCount == userModel.follwerCount &&
-                isFolloweing == userModel.isFolloweing &&
+                isFollowing == userModel.isFollowing &&
                 isPublic == userModel.isPublic &&
                 Objects.equals(username, userModel.username) &&
                 Objects.equals(profileImage, userModel.profileImage);
@@ -117,7 +117,7 @@ public class UserModel {
     @Override
     public int hashCode() {
 
-        return Objects.hash(id, username, profileImage, stampCount, wishCount, followingCount, follwerCount, isFolloweing, isPublic);
+        return Objects.hash(id, username, profileImage, stampCount, wishCount, followingCount, follwerCount, isFollowing, isPublic);
     }
 
     @Override
@@ -130,7 +130,7 @@ public class UserModel {
                 ", wishCount=" + wishCount +
                 ", followingCount=" + followingCount +
                 ", follwerCount=" + follwerCount +
-                ", isFolloweing=" + isFolloweing +
+                ", isFollowing=" + isFollowing +
                 ", isPublic=" + isPublic +
                 '}';
     }
