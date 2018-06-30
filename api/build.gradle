@@ -19,12 +19,12 @@ sourceCompatibility = 1.8
 
 jar {
     manifest {
-        attributes  'Title': 'gourmet-api', 'Version': version, 'Main-Class': 'com.kodachaya.gourmet.api.Application'
+        attributes 'Title': 'gourmet-api', 'Version': version, 'Main-Class': 'com.kodachaya.gourmet.api.Application'
     }
     archiveName 'gourmet-api.jar'
     dependsOn configurations.runtime
     from {
-        configurations.compile.collect {it.isDirectory()? it: zipTree(it)}
+        configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
     }
 }
 
