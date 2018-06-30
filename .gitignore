@@ -1,25 +1,61 @@
-/target/
-!.mvn/wrapper/maven-wrapper.jar
+# Created by https://www.gitignore.io/api/java,macos,gradle,windows,intellij
 
-### STS ###
-.apt_generated
-.classpath
-.factorypath
-.project
-.settings
-.springBeans
-.sts4-cache
+### Intellij ###
+# Covers JetBrains IDEs: IntelliJ, RubyMine, PhpStorm, AppCode, PyCharm, CLion, Android Studio and WebStorm
+# Reference: https://intellij-support.jetbrains.com/hc/en-us/articles/206544839
 
-### IntelliJ IDEA ###
+# User-specific stuff
 .idea
-*.iws
-*.iml
-*.ipr
 
-### NetBeans ###
-/nbproject/private/
+# IntelliJ
+out/
+
+
+*.iml
+modules.xml
+
+
+### Java ###
+# Compiled class file
+*.class
+
+# Log file
+*.log
+
+# Package Files #
+*.jar
+*.war
+*.nar
+*.ear
+*.zip
+*.tar.gz
+*.rar
+
+
+### macOS ###
+# General
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Thumbnails
+._*
+
+### Windows ###
+# Windows thumbnail cache files
+Thumbs.db
+ehthumbs.db
+ehthumbs_vista.db
+
+# Dump file
+*.stackdump
+
+# Windows shortcuts
+*.lnk
+
+### Gradle ###
+.gradle
 /build/
-/nbbuild/
-/dist/
-/nbdist/
-/.nb-gradle/
+
+# Avoid ignoring Gradle wrapper jar file (.jar files are usually ignored)
+!gradle-wrapper.jar
