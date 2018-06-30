@@ -6,6 +6,7 @@ public class UserModel {
 
     private int id;
     private String username;
+    private String introduce;
     private String profileImage;
     private int stampCount;
     private int wishCount;
@@ -13,18 +14,6 @@ public class UserModel {
     private int follwerCount;
     private boolean isFollowing;
     private boolean isPublic;
-
-    public UserModel(int id, String username, String profileImage, int stampCount, int wishCount, int followingCount, int follwerCount, boolean isFollowing, boolean isPublic) {
-        this.id = id;
-        this.username = username;
-        this.profileImage = profileImage;
-        this.stampCount = stampCount;
-        this.wishCount = wishCount;
-        this.followingCount = followingCount;
-        this.follwerCount = follwerCount;
-        this.isFollowing = isFollowing;
-        this.isPublic = isPublic;
-    }
 
     public int getId() {
         return id;
@@ -40,6 +29,14 @@ public class UserModel {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public String getIntroduce() {
+        return introduce;
+    }
+
+    public void setIntroduce(String introduce) {
+        this.introduce = introduce;
     }
 
     public String getProfileImage() {
@@ -111,13 +108,14 @@ public class UserModel {
                 isFollowing == userModel.isFollowing &&
                 isPublic == userModel.isPublic &&
                 Objects.equals(username, userModel.username) &&
+                Objects.equals(introduce, userModel.introduce) &&
                 Objects.equals(profileImage, userModel.profileImage);
     }
 
     @Override
     public int hashCode() {
 
-        return Objects.hash(id, username, profileImage, stampCount, wishCount, followingCount, follwerCount, isFollowing, isPublic);
+        return Objects.hash(id, username, introduce, profileImage, stampCount, wishCount, followingCount, follwerCount, isFollowing, isPublic);
     }
 
     @Override
@@ -125,6 +123,7 @@ public class UserModel {
         return "UserModel{" +
                 "id=" + id +
                 ", username='" + username + '\'' +
+                ", introduce='" + introduce + '\'' +
                 ", profileImage='" + profileImage + '\'' +
                 ", stampCount=" + stampCount +
                 ", wishCount=" + wishCount +
