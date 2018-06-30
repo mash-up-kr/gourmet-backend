@@ -1,6 +1,7 @@
 package com.kodachaya.gourmet.dto;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.Objects;
 
@@ -10,14 +11,16 @@ public class MenuModel {
     private String name;
     private int price;
     private boolean isWished;
-    private SimpleDateFormat wishedAt;
+    private LocalDateTime wishedAt;
+    private LocalDateTime registeredTIme;
 
-    public MenuModel(int id, String name, int price, boolean isWished, SimpleDateFormat wishedAt) {
+    public MenuModel(int id, String name, int price, boolean isWished, LocalDateTime wishedAt, LocalDateTime registeredTIme) {
         this.id = id;
         this.name = name;
         this.price = price;
         this.isWished = isWished;
         this.wishedAt = wishedAt;
+        this.registeredTIme = registeredTIme;
     }
 
     public int getId() {
@@ -52,12 +55,20 @@ public class MenuModel {
         isWished = wished;
     }
 
-    public SimpleDateFormat getWishedAt() {
+    public LocalDateTime getWishedAt() {
         return wishedAt;
     }
 
-    public void setWishedAt(SimpleDateFormat wishedAt) {
+    public void setWishedAt(LocalDateTime wishedAt) {
         this.wishedAt = wishedAt;
+    }
+
+    public LocalDateTime getRegisteredTIme() {
+        return registeredTIme;
+    }
+
+    public void setRegisteredTIme(LocalDateTime registeredTIme) {
+        this.registeredTIme = registeredTIme;
     }
 
     @Override
@@ -69,13 +80,14 @@ public class MenuModel {
                 price == menuModel.price &&
                 isWished == menuModel.isWished &&
                 Objects.equals(name, menuModel.name) &&
-                Objects.equals(wishedAt, menuModel.wishedAt);
+                Objects.equals(wishedAt, menuModel.wishedAt) &&
+                Objects.equals(registeredTIme, menuModel.registeredTIme);
     }
 
     @Override
     public int hashCode() {
 
-        return Objects.hash(id, name, price, isWished, wishedAt);
+        return Objects.hash(id, name, price, isWished, wishedAt, registeredTIme);
     }
 
     @Override
@@ -86,6 +98,7 @@ public class MenuModel {
                 ", price=" + price +
                 ", isWished=" + isWished +
                 ", wishedAt=" + wishedAt +
+                ", registeredTIme=" + registeredTIme +
                 '}';
     }
 }

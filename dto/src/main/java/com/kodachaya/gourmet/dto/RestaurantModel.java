@@ -1,6 +1,7 @@
 package com.kodachaya.gourmet.dto;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.Objects;
 
@@ -9,9 +10,9 @@ public class RestaurantModel {
     private String name;
     private double latitude;
     private double longitude;
-    private SimpleDateFormat registeredTime;
+    private LocalDateTime registeredTime;
 
-    public RestaurantModel(int id, String name, double latitude, double longitude, SimpleDateFormat registeredTime) {
+    public RestaurantModel(int id, String name, double latitude, double longitude, LocalDateTime registeredTime) {
         this.id = id;
         this.name = name;
         this.latitude = latitude;
@@ -51,11 +52,11 @@ public class RestaurantModel {
         this.longitude = longitude;
     }
 
-    public SimpleDateFormat getRegisteredTime() {
+    public LocalDateTime getRegisteredTime() {
         return registeredTime;
     }
 
-    public void setRegisteredTime(SimpleDateFormat registeredTime) {
+    public void setRegisteredTime(LocalDateTime registeredTime) {
         this.registeredTime = registeredTime;
     }
 

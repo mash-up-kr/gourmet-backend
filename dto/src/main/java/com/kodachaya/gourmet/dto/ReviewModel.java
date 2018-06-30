@@ -7,17 +7,19 @@ import java.util.Objects;
 public class ReviewModel {
 
     private int id;
-    private Stamp LIKE;
     private UserModel author;
+    private Stamp stamp;
     private RestaurantModel restaurant;
     private MenuModel menu;
+    private List<Taste> menuTastes;
 
-    public ReviewModel(int id, Stamp LIKE, UserModel author, RestaurantModel restaurant, MenuModel menu) {
+    public ReviewModel(int id, UserModel author, Stamp stamp, RestaurantModel restaurant, MenuModel menu, List<Taste> menuTastes) {
         this.id = id;
-        this.LIKE = LIKE;
         this.author = author;
+        this.stamp = stamp;
         this.restaurant = restaurant;
         this.menu = menu;
+        this.menuTastes = menuTastes;
     }
 
     public int getId() {
@@ -28,20 +30,20 @@ public class ReviewModel {
         this.id = id;
     }
 
-    public Stamp getLIKE() {
-        return LIKE;
-    }
-
-    public void setLIKE(Stamp LIKE) {
-        this.LIKE = LIKE;
-    }
-
     public UserModel getAuthor() {
         return author;
     }
 
     public void setAuthor(UserModel author) {
         this.author = author;
+    }
+
+    public Stamp getStamp() {
+        return stamp;
+    }
+
+    public void setStamp(Stamp stamp) {
+        this.stamp = stamp;
     }
 
     public RestaurantModel getRestaurant() {
@@ -60,32 +62,42 @@ public class ReviewModel {
         this.menu = menu;
     }
 
+    public List<Taste> getMenuTastes() {
+        return menuTastes;
+    }
+
+    public void setMenuTastes(List<Taste> menuTastes) {
+        this.menuTastes = menuTastes;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         ReviewModel that = (ReviewModel) o;
         return id == that.id &&
-                LIKE == that.LIKE &&
                 Objects.equals(author, that.author) &&
+                stamp == that.stamp &&
                 Objects.equals(restaurant, that.restaurant) &&
-                Objects.equals(menu, that.menu);
+                Objects.equals(menu, that.menu) &&
+                Objects.equals(menuTastes, that.menuTastes);
     }
 
     @Override
     public int hashCode() {
 
-        return Objects.hash(id, LIKE, author, restaurant, menu);
+        return Objects.hash(id, author, stamp, restaurant, menu, menuTastes);
     }
 
     @Override
     public String toString() {
         return "ReviewModel{" +
                 "id=" + id +
-                ", LIKE=" + LIKE +
                 ", author=" + author +
+                ", stamp=" + stamp +
                 ", restaurant=" + restaurant +
                 ", menu=" + menu +
+                ", menuTastes=" + menuTastes +
                 '}';
     }
 }
