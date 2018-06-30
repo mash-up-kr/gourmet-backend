@@ -1,8 +1,6 @@
-package com.kodachaya.gourmet.dto;
+package com.kodachaya.gourmet.dto.restaurant;
 
-import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.Objects;
 
 public class RestaurantModel {

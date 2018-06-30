@@ -1,4 +1,4 @@
-package com.kodachaya.gourmet.dto;
+package com.kodachaya.gourmet.dto.user;
 
 import java.util.Objects;
 

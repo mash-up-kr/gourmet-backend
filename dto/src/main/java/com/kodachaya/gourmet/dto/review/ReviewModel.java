@@ -1,6 +1,10 @@
-package com.kodachaya.gourmet.dto;
+package com.kodachaya.gourmet.dto.review;
 
-import java.util.Date;
+import com.kodachaya.gourmet.dto.menu.MenuModel;
+import com.kodachaya.gourmet.dto.restaurant.RestaurantModel;
+import com.kodachaya.gourmet.dto.Stamp;
+import com.kodachaya.gourmet.dto.user.UserModel;
+
 import java.util.List;
 import java.util.Objects;
 
