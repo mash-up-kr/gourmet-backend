@@ -1,7 +1,11 @@
 package com.kodachaya.gourmet.dto.user;
 
-import java.util.Objects;
+import com.fasterxml.jackson.annotation.JsonInclude;
 
+import java.util.Objects;
+import java.util.Optional;
+
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class UserModel {
 
     private int id;
@@ -9,11 +13,11 @@ public class UserModel {
     private String introduce;
     private String profileImage;
     private int stampCount;
-    private int wishCount;
+    private Optional<Integer> wishCount;
     private int followingCount;
-    private int follwerCount;
-    private boolean isFollowing;
-    private boolean isPublic;
+    private int followerCount;
+    private Optional<Boolean> isFollowing;
+    private Optional<Boolean> isPublic;
 
     public int getId() {
         return id;
@@ -55,12 +59,12 @@ public class UserModel {
         this.stampCount = stampCount;
     }
 
-    public int getWishCount() {
+    public Optional<Integer> getWishCount() {
         return wishCount;
     }
 
     public void setWishCount(int wishCount) {
-        this.wishCount = wishCount;
+        this.wishCount = Optional.of(wishCount);
     }
 
     public int getFollowingCount() {
@@ -71,28 +75,28 @@ public class UserModel {
         this.followingCount = followingCount;
     }
 
-    public int getFollwerCount() {
-        return follwerCount;
+    public int getFollowerCount() {
+        return followerCount;
     }
 
-    public void setFollwerCount(int follwerCount) {
-        this.follwerCount = follwerCount;
+    public void setFollowerCount(int followerCount) {
+        this.followerCount = followerCount;
     }
 
-    public boolean isFollowing() {
+    public Optional<Boolean> getIsFollowing() {
         return isFollowing;
     }
 
-    public void setFollowing(boolean following) {
-        isFollowing = following;
+    public void setIsFollowing(boolean isFollowing) {
+        this.isFollowing = Optional.of(isFollowing);
     }
 
-    public boolean isPublic() {
+    public Optional<Boolean> getIsPublic() {
         return isPublic;
     }
 
-    public void setPublic(boolean aPublic) {
-        isPublic = aPublic;
+    public void setIsPublic(boolean isPublic) {
+        this.isPublic = Optional.of(isPublic);
     }
 
     @Override
@@ -104,7 +108,7 @@ public class UserModel {
                 stampCount == userModel.stampCount &&
                 wishCount == userModel.wishCount &&
                 followingCount == userModel.followingCount &&
-                follwerCount == userModel.follwerCount &&
+                followerCount == userModel.followerCount &&
                 isFollowing == userModel.isFollowing &&
                 isPublic == userModel.isPublic &&
                 Objects.equals(username, userModel.username) &&
@@ -115,7 +119,7 @@ public class UserModel {
     @Override
     public int hashCode() {
 
-        return Objects.hash(id, username, introduce, profileImage, stampCount, wishCount, followingCount, follwerCount, isFollowing, isPublic);
+        return Objects.hash(id, username, introduce, profileImage, stampCount, wishCount, followingCount, followerCount, isFollowing, isPublic);
     }
 
     @Override
@@ -128,7 +132,7 @@ public class UserModel {
                 ", stampCount=" + stampCount +
                 ", wishCount=" + wishCount +
                 ", followingCount=" + followingCount +
-                ", follwerCount=" + follwerCount +
+                ", followerCount=" + followerCount +
                 ", isFollowing=" + isFollowing +
                 ", isPublic=" + isPublic +
                 '}';

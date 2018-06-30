@@ -6,8 +6,14 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @ResponseStatus(code = HttpStatus.UNAUTHORIZED)
 public class UnauthorizedException extends BaseException {
 
+
+
     public UnauthorizedException(String message) {
         super(HttpStatus.UNAUTHORIZED.value(), message);
+    }
+
+    public UnauthorizedException() {
+        super(HttpStatus.UNAUTHORIZED.value(), HttpStatus.UNAUTHORIZED.getReasonPhrase());
     }
 
 }
