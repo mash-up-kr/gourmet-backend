@@ -31,19 +31,18 @@ jar {
 repositories {
     mavenCentral()
     maven { url "https://repository.jboss.org/nexus/content/repositories/releases" }
+    maven { url 'https://repo.spring.io/snapshot' }
 }
 
 dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.12'
 
-    compile("org.springframework.boot:spring-boot-starter-web:2.0.2.RELEASE")
-    compile("org.springframework.boot:spring-boot-starter-data-jpa")
-    compile("org.springframework:spring-jdbc")
+    compile "org.springframework.boot:spring-boot-starter-web:2.0.3.RELEASE"
+    compile "org.springframework.boot:spring-boot-starter-data-jpa"
+    compile "org.springframework.boot:spring-boot-starter-security"
+    compile 'org.springframework.security.oauth.boot:spring-security-oauth2-autoconfigure:2.0.2.BUILD-SNAPSHOT'
+    compile "org.springframework:spring-jdbc"
 
     compile("com.h2database:h2")
-
-    compile("com.google.code.gson:gson:2.7")
-
-    compile project(':dto')
-
+    compile project(':entity')
 }
