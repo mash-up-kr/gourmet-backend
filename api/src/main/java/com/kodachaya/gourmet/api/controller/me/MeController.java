@@ -2,11 +2,13 @@ package com.kodachaya.gourmet.api.controller.me;
 
 import com.kodachaya.gourmet.api.dto.me.MeCommand;
 import com.kodachaya.gourmet.api.dto.user.UserModel;
+import com.kodachaya.gourmet.api.entity.UserEntity;
 import com.kodachaya.gourmet.api.exception.BadRequestException;
 import com.kodachaya.gourmet.api.exception.UnauthorizedException;
 import com.kodachaya.gourmet.api.service.CustomUserDetails;
 import com.kodachaya.gourmet.api.service.UserService;
-import com.kodachaya.gourmet.entity.UserEntity;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.util.StringUtils;
@@ -18,6 +20,10 @@ public class MeController {
     @Autowired
     private UserService userService;
 
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Success", response = UserModel.class),
+            @ApiResponse(code = 401, message = "Unauthorized"),
+            @ApiResponse(code = 500, message = "Failure")})
     @RequestMapping(value = "/me", method = RequestMethod.GET)
     public @ResponseBody UserModel getMe() {
         String username = ((CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername();
@@ -36,6 +42,11 @@ public class MeController {
         return user;
     }
 
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Success", response = UserModel.class),
+            @ApiResponse(code = 400, message = "Bad Request"),
+            @ApiResponse(code = 401, message = "Unauthorized"),
+            @ApiResponse(code = 500, message = "Failure")})
     @RequestMapping(value = "/me", method = RequestMethod.PUT)
     public @ResponseBody UserModel putMe(@RequestBody MeCommand command) {
 

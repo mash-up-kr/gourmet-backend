@@ -17,16 +17,16 @@ apply plugin: 'io.spring.dependency-management'
 
 sourceCompatibility = 1.8
 
-jar {
-    manifest {
-        attributes 'Title': 'gourmet-api', 'Version': version, 'Main-Class': 'com.kodachaya.gourmet.api.Application'
-    }
-    archiveName 'gourmet-api.jar'
-    dependsOn configurations.runtime
-    from {
-        configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
-    }
-}
+//jar {
+//    manifest {
+//        attributes 'Title': 'gourmet-api', 'Version': '0.1' , 'Main-Class': 'com.kodachaya.gourmet.api.Application'
+//    }
+//    archiveName 'gourmet-api.jar'
+//    dependsOn configurations.runtime
+//    from {
+//        configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
+//    }
+//}
 
 repositories {
     mavenCentral()
@@ -43,6 +43,9 @@ dependencies {
     compile 'org.springframework.security.oauth.boot:spring-security-oauth2-autoconfigure:2.0.2.BUILD-SNAPSHOT'
     compile "org.springframework:spring-jdbc"
 
+    compile "io.springfox:springfox-swagger-ui:2.8.0"
+    compile "io.springfox:springfox-swagger2:2.8.0"
+
+
     compile("com.h2database:h2")
-    compile project(':entity')
 }

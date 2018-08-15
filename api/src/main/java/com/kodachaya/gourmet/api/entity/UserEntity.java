@@ -1,4 +1,4 @@
-package com.kodachaya.gourmet.entity;
+package com.kodachaya.gourmet.api.entity;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;

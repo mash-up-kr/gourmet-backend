@@ -1,6 +1,7 @@
 package com.kodachaya.gourmet.api.service;
 
-import com.kodachaya.gourmet.entity.UserEntity;
+
+import com.kodachaya.gourmet.api.entity.UserEntity;
 
 import java.util.Optional;
 

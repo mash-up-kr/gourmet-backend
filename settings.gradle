@@ -1,4 +1,2 @@
 rootProject.name = 'gourmet'
 include 'api'
-include 'entity'
-

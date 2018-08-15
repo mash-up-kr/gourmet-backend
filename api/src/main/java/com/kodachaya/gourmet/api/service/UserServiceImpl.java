@@ -1,7 +1,7 @@
 package com.kodachaya.gourmet.api.service;
 
+import com.kodachaya.gourmet.api.entity.UserEntity;
 import com.kodachaya.gourmet.api.exception.BadRequestException;
-import com.kodachaya.gourmet.entity.UserEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
