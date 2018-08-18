@@ -7,7 +7,12 @@ import java.util.Optional;
 
 public interface UserService {
 
+
     Optional<UserEntity> get(String username);
 
+
     Optional<UserEntity> save(String username, String password);
+
+
+    Optional<UserEntity> updateAdditionalInfo(String profileUrl, String introduce);
 }
