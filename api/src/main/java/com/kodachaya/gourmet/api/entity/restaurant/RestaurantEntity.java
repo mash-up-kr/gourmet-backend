@@ -6,6 +6,7 @@ import java.util.Objects;
 import java.util.Optional;
 
 @Entity
+
 @Table(name = "Restaurant")
 public class RestaurantEntity {
 
@@ -16,12 +17,12 @@ public class RestaurantEntity {
     @Column(name = "name", nullable = false)
     private String name;
 
+    @Basic
     @Column(name = "latitude")
-    private Optional<Double> latitude;
-
+    private Double latitude;
 
     @Column(name = "longitude")
-    private Optional<Double> longitude;
+    private Double longitude;
 
 
     @Column(name = "createdAt", nullable = false)
@@ -39,8 +40,8 @@ public class RestaurantEntity {
 
     public RestaurantEntity(String name, Double latitude, Double longitude) {
         this.name = name;
-        this.latitude = Optional.ofNullable(latitude);
-        this.longitude = Optional.ofNullable(longitude);
+        this.latitude = latitude;
+        this.longitude = longitude;
     }
 
 
@@ -66,19 +67,19 @@ public class RestaurantEntity {
     }
 
     public Optional<Double> getLatitude() {
-        return latitude;
+        return Optional.of(latitude);
     }
 
     public void setLatitude(Double latitude) {
-        this.latitude = Optional.ofNullable(latitude);
+        this.latitude = latitude;
     }
 
     public Optional<Double> getLongitude() {
-        return longitude;
+        return Optional.ofNullable(longitude);
     }
 
     public void setLongitude(Double longitude) {
-        this.longitude = Optional.ofNullable(longitude);
+        this.longitude = longitude;
     }
 
     public LocalDateTime getCreatedAt() {
