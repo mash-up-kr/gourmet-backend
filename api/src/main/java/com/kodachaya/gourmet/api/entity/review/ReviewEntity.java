@@ -46,10 +46,10 @@ public class ReviewEntity {
     private Set<ReviewMenuImageEntity> images;
 
 
-    @PrePersist
-    public void persist() {
-        this.createdAt = LocalDateTime.now();
-    }
+    @OneToMany(fetch=FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name = "reviewId", foreignKey = @ForeignKey(name = "FK_ReviewTaste_Review"))
+    private Set<ReviewTasteEntity> tastes;
+
 
     public int getId() {
         return id;
@@ -107,6 +107,14 @@ public class ReviewEntity {
         this.images = images;
     }
 
+    public Set<ReviewTasteEntity> getTastes() {
+        return tastes;
+    }
+
+    public void setTastes(Set<ReviewTasteEntity> tastes) {
+        this.tastes = tastes;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -118,12 +126,13 @@ public class ReviewEntity {
                 Objects.equals(user, that.user) &&
                 Objects.equals(comment, that.comment) &&
                 Objects.equals(createdAt, that.createdAt) &&
-                Objects.equals(images, that.images);
+                Objects.equals(images, that.images) &&
+                Objects.equals(tastes, that.tastes);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, stamp, menu, user, comment, createdAt, images);
+        return Objects.hash(id, stamp, menu, user, comment, createdAt, images, tastes);
     }
 
     @Override
@@ -136,6 +145,7 @@ public class ReviewEntity {
                 ", comment='" + comment + '\'' +
                 ", createdAt=" + createdAt +
                 ", images=" + images +
+                ", tastes=" + tastes +
                 '}';
     }
 }
