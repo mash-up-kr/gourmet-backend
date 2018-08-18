@@ -19,7 +19,7 @@ public class MenuEntity {
 
 
     @ManyToOne
-    @JoinColumn(name = "restaurantId", foreignKey = @ForeignKey(name = "FK_Menu_Restaurant"))
+    @JoinColumn(name = "restaurantId", foreignKey = @ForeignKey(name = "FK_Menu_Restaurant"), nullable = false)
     private RestaurantEntity restaurant;
 
     @Column(name = "price")
