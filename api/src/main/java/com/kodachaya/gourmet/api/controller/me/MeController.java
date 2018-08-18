@@ -2,7 +2,7 @@ package com.kodachaya.gourmet.api.controller.me;
 
 import com.kodachaya.gourmet.api.dto.me.MeCommand;
 import com.kodachaya.gourmet.api.dto.user.UserModel;
-import com.kodachaya.gourmet.api.entity.UserEntity;
+import com.kodachaya.gourmet.api.entity.user.UserEntity;
 import com.kodachaya.gourmet.api.exception.BadRequestException;
 import com.kodachaya.gourmet.api.exception.UnauthorizedException;
 import com.kodachaya.gourmet.api.service.CustomUserDetails;

@@ -1,6 +1,6 @@
 package com.kodachaya.gourmet.api.config;
 
-import com.kodachaya.gourmet.api.entity.UserEntity;
+import com.kodachaya.gourmet.api.entity.user.UserEntity;
 import com.kodachaya.gourmet.api.service.CustomUserDetails;
 import com.kodachaya.gourmet.api.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
