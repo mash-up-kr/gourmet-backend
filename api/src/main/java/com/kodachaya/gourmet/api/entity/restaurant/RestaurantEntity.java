@@ -1,4 +1,4 @@
-package com.kodachaya.gourmet.api.entity;
+package com.kodachaya.gourmet.api.entity.restaurant;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -23,8 +23,10 @@ public class RestaurantEntity {
     @Column(name = "longitude")
     private Optional<Double> longitude;
 
+
     @Column(name = "createdAt", nullable = false)
     private LocalDateTime createdAt;
+
 
 
     public RestaurantEntity() {}
