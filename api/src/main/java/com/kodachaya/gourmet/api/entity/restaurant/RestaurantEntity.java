@@ -17,13 +17,14 @@ public class RestaurantEntity {
     @Column(name = "name", nullable = false)
     private String name;
 
-    @Basic
     @Column(name = "latitude")
     private Double latitude;
 
     @Column(name = "longitude")
     private Double longitude;
 
+    @Column(name = "address")
+    private String address;
 
     @Column(name = "createdAt", nullable = false)
     private LocalDateTime createdAt;
@@ -39,11 +40,15 @@ public class RestaurantEntity {
 
 
     public RestaurantEntity(String name, Double latitude, Double longitude) {
+        this(name, latitude, longitude, null);
+    }
+
+    public RestaurantEntity(String name, Double latitude, Double longitude, String address) {
         this.name = name;
         this.latitude = latitude;
         this.longitude = longitude;
+        this.address = address;
     }
-
 
     @PrePersist
     public void persist() {
@@ -86,6 +91,14 @@ public class RestaurantEntity {
         return createdAt;
     }
 
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
     public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
     }
@@ -99,12 +112,13 @@ public class RestaurantEntity {
                 Objects.equals(name, that.name) &&
                 Objects.equals(latitude, that.latitude) &&
                 Objects.equals(longitude, that.longitude) &&
+                Objects.equals(address, that.address) &&
                 Objects.equals(createdAt, that.createdAt);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, latitude, longitude, createdAt);
+        return Objects.hash(id, name, latitude, longitude, address, createdAt);
     }
 
     @Override
@@ -114,6 +128,7 @@ public class RestaurantEntity {
                 ", name='" + name + '\'' +
                 ", latitude=" + latitude +
                 ", longitude=" + longitude +
+                ", address='" + address + '\'' +
                 ", createdAt=" + createdAt +
                 '}';
     }
