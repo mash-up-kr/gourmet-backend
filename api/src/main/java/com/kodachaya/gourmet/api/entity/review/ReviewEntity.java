@@ -5,7 +5,9 @@ import com.kodachaya.gourmet.api.entity.user.UserEntity;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 @Table(name = "Review")
@@ -35,16 +37,19 @@ public class ReviewEntity {
     private String comment;
 
 
-
     @Column(name = "createdAt", nullable = false)
     private LocalDateTime createdAt;
+
+
+    @OneToMany(fetch=FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name="reviewId")
+    private Set<ReviewMenuImageEntity> images;
 
 
     @PrePersist
     public void persist() {
         this.createdAt = LocalDateTime.now();
     }
-
 
     public int getId() {
         return id;
@@ -94,6 +99,14 @@ public class ReviewEntity {
         this.createdAt = createdAt;
     }
 
+    public Set<ReviewMenuImageEntity> getImages() {
+        return images;
+    }
+
+    public void setImages(Set<ReviewMenuImageEntity> images) {
+        this.images = images;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -104,12 +117,13 @@ public class ReviewEntity {
                 Objects.equals(menu, that.menu) &&
                 Objects.equals(user, that.user) &&
                 Objects.equals(comment, that.comment) &&
-                Objects.equals(createdAt, that.createdAt);
+                Objects.equals(createdAt, that.createdAt) &&
+                Objects.equals(images, that.images);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, stamp, menu, user, comment, createdAt);
+        return Objects.hash(id, stamp, menu, user, comment, createdAt, images);
     }
 
     @Override
@@ -121,6 +135,7 @@ public class ReviewEntity {
                 ", user=" + user +
                 ", comment='" + comment + '\'' +
                 ", createdAt=" + createdAt +
+                ", images=" + images +
                 '}';
     }
 }
