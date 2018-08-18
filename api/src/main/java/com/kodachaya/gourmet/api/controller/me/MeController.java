@@ -1,6 +1,8 @@
 package com.kodachaya.gourmet.api.controller.me;
 
+import com.kodachaya.gourmet.api.dto.BaseListModel;
 import com.kodachaya.gourmet.api.dto.me.MeCommand;
+import com.kodachaya.gourmet.api.dto.review.ReviewModel;
 import com.kodachaya.gourmet.api.dto.user.UserModel;
 import com.kodachaya.gourmet.api.entity.UserEntity;
 import com.kodachaya.gourmet.api.exception.BadRequestException;
@@ -13,6 +15,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Optional;
 
 @RestController
 public class MeController {
@@ -72,6 +76,14 @@ public class MeController {
 
         // TODO update profile or image
         return user;
+    }
+
+    // swagger setting
+    @RequestMapping(value = "/me/stamps", method = RequestMethod.GET)
+    public @ResponseBody BaseListModel<ReviewModel> getStamps(
+            @RequestParam("count") Optional<Integer> optionalCount,
+            @RequestParam("cursor") Optional<Integer> cursor) {
+        // return dummy data
     }
 
 }
