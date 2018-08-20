@@ -1,4 +1,4 @@
-package com.kodachaya.gourmet.api.service;
+package com.kodachaya.gourmet.api.service.user;
 
 import com.kodachaya.gourmet.api.dao.user.UserDao;
 import com.kodachaya.gourmet.api.entity.user.UserEntity;

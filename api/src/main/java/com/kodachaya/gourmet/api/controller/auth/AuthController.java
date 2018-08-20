@@ -3,7 +3,7 @@ package com.kodachaya.gourmet.api.controller.auth;
 import com.kodachaya.gourmet.api.dto.auth.command.SignUpCommand;
 import com.kodachaya.gourmet.api.exception.AlreadyExistsException;
 import com.kodachaya.gourmet.api.exception.BadRequestException;
-import com.kodachaya.gourmet.api.service.UserService;
+import com.kodachaya.gourmet.api.service.user.UserService;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
