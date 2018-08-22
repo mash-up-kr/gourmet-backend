@@ -1,4 +1,4 @@
-package com.kodachaya.gourmet.api.service;
+package com.kodachaya.gourmet.api.config;
 
 import com.kodachaya.gourmet.api.entity.user.UserEntity;
 import org.springframework.security.core.GrantedAuthority;
