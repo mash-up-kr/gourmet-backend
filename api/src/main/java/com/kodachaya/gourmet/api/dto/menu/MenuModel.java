@@ -1,25 +1,29 @@
 package com.kodachaya.gourmet.api.dto.menu;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 import java.time.LocalDateTime;
 import java.util.Objects;
+import java.util.Optional;
 
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class MenuModel {
 
     private int id;
     private String name;
-    private int price;
-    private boolean isWished;
-    private LocalDateTime wishedAt;
-    private LocalDateTime registeredTIme;
+    private Optional<Integer> price;
 
-    public MenuModel(int id, String name, int price, boolean isWished, LocalDateTime wishedAt, LocalDateTime registeredTIme) {
-        this.id = id;
-        this.name = name;
-        this.price = price;
-        this.isWished = isWished;
-        this.wishedAt = wishedAt;
-        this.registeredTIme = registeredTIme;
-    }
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
+    private LocalDateTime registeredTime;
+
+    private boolean isWished;
+
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
+    private LocalDateTime wishedAt;
+
+
+    public MenuModel() {}
 
     public int getId() {
         return id;
@@ -37,11 +41,16 @@ public class MenuModel {
         this.name = name;
     }
 
-    public int getPrice() {
+    public Optional<Integer> getPrice() {
         return price;
     }
 
-    public void setPrice(int price) {
+    public void setPrice(Integer price) {
+        this.price = Optional.ofNullable(price);
+    }
+
+
+    public void setPrice(Optional<Integer> price) {
         this.price = price;
     }
 
@@ -61,12 +70,12 @@ public class MenuModel {
         this.wishedAt = wishedAt;
     }
 
-    public LocalDateTime getRegisteredTIme() {
-        return registeredTIme;
+    public LocalDateTime getRegisteredTime() {
+        return registeredTime;
     }
 
-    public void setRegisteredTIme(LocalDateTime registeredTIme) {
-        this.registeredTIme = registeredTIme;
+    public void setRegisteredTime(LocalDateTime registeredTime) {
+        this.registeredTime = registeredTime;
     }
 
     @Override
@@ -79,13 +88,13 @@ public class MenuModel {
                 isWished == menuModel.isWished &&
                 Objects.equals(name, menuModel.name) &&
                 Objects.equals(wishedAt, menuModel.wishedAt) &&
-                Objects.equals(registeredTIme, menuModel.registeredTIme);
+                Objects.equals(registeredTime, menuModel.registeredTime);
     }
 
     @Override
     public int hashCode() {
 
-        return Objects.hash(id, name, price, isWished, wishedAt, registeredTIme);
+        return Objects.hash(id, name, price, isWished, wishedAt, registeredTime);
     }
 
     @Override
@@ -96,7 +105,7 @@ public class MenuModel {
                 ", price=" + price +
                 ", isWished=" + isWished +
                 ", wishedAt=" + wishedAt +
-                ", registeredTIme=" + registeredTIme +
+                ", registeredTime=" + registeredTime +
                 '}';
     }
 }

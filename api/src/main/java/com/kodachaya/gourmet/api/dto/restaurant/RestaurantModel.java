@@ -1,22 +1,22 @@
 package com.kodachaya.gourmet.api.dto.restaurant;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 import java.time.LocalDateTime;
 import java.util.Objects;
+import java.util.Optional;
 
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class RestaurantModel {
     private int id;
     private String name;
-    private double latitude;
-    private double longitude;
-    private LocalDateTime registeredTime;
+    private Optional<Double> latitude;
+    private Optional<Double> longitude;
+    private String address;
 
-    public RestaurantModel(int id, String name, double latitude, double longitude, LocalDateTime registeredTime) {
-        this.id = id;
-        this.name = name;
-        this.latitude = latitude;
-        this.longitude = longitude;
-        this.registeredTime = registeredTime;
-    }
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
+    private LocalDateTime registeredTime;
 
     public int getId() {
         return id;
@@ -34,20 +34,37 @@ public class RestaurantModel {
         this.name = name;
     }
 
-    public double getLatitude() {
+    public Optional<Double> getLatitude() {
         return latitude;
     }
 
-    public void setLatitude(double latitude) {
+    public void setLatitude(Optional<Double> latitude) {
         this.latitude = latitude;
     }
 
-    public double getLongitude() {
+
+    public void setLatitude(Double latitude) {
+        this.latitude = Optional.ofNullable(latitude);
+    }
+
+    public Optional<Double> getLongitude() {
         return longitude;
     }
 
-    public void setLongitude(double longitude) {
+    public void setLongitude(Optional<Double> longitude) {
         this.longitude = longitude;
+    }
+
+    public void setLongitude(Double longitude) {
+        this.longitude = Optional.ofNullable(longitude);
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
     }
 
     public LocalDateTime getRegisteredTime() {
@@ -64,16 +81,16 @@ public class RestaurantModel {
         if (o == null || getClass() != o.getClass()) return false;
         RestaurantModel that = (RestaurantModel) o;
         return id == that.id &&
-                Double.compare(that.latitude, latitude) == 0 &&
-                Double.compare(that.longitude, longitude) == 0 &&
                 Objects.equals(name, that.name) &&
+                Objects.equals(latitude, that.latitude) &&
+                Objects.equals(longitude, that.longitude) &&
+                Objects.equals(address, that.address) &&
                 Objects.equals(registeredTime, that.registeredTime);
     }
 
     @Override
     public int hashCode() {
-
-        return Objects.hash(id, name, latitude, longitude, registeredTime);
+        return Objects.hash(id, name, latitude, longitude, address, registeredTime);
     }
 
     @Override
@@ -83,6 +100,7 @@ public class RestaurantModel {
                 ", name='" + name + '\'' +
                 ", latitude=" + latitude +
                 ", longitude=" + longitude +
+                ", address='" + address + '\'' +
                 ", registeredTime=" + registeredTime +
                 '}';
     }

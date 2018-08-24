@@ -23,6 +23,11 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
+    public Optional<UserEntity> find(int userId) {
+        return dao.findById(userId);
+    }
+
+    @Override
     public Optional<UserEntity> get(String username) {
         return dao.findByUsername(username);
     }
@@ -37,5 +42,20 @@ public class UserServiceImpl implements UserService {
 
         // save to database
         return Optional.of(dao.save(new UserEntity(username, passwordEncoder.encode(password))));
+    }
+
+    @Override
+    public Optional<UserEntity> updateAdditionalInfo(int userId, Optional<String> profileImageUrl, Optional<String> introduce) {
+        return Optional.empty();
+    }
+
+    @Override
+    public boolean follow(int userId, int followUserId) {
+        return false;
+    }
+
+    @Override
+    public boolean unfollow(int userId, int followingUserId) {
+        return false;
     }
 }
