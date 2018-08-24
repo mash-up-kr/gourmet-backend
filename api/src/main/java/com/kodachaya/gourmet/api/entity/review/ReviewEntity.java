@@ -5,7 +5,6 @@ import com.kodachaya.gourmet.api.entity.user.UserEntity;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
@@ -30,7 +29,7 @@ public class ReviewEntity {
 
     @ManyToOne
     @JoinColumn(name = "userId", foreignKey = @ForeignKey(name = "FK_Review_User"), nullable = false)
-    private UserEntity user;
+    private UserEntity author;
 
 
     @Column(name = "comment", nullable = false)
@@ -75,12 +74,12 @@ public class ReviewEntity {
         this.menu = menu;
     }
 
-    public UserEntity getUser() {
-        return user;
+    public UserEntity getAuthor() {
+        return author;
     }
 
-    public void setUser(UserEntity user) {
-        this.user = user;
+    public void setAuthor(UserEntity author) {
+        this.author = author;
     }
 
     public String getComment() {
@@ -123,7 +122,7 @@ public class ReviewEntity {
         return id == that.id &&
                 Objects.equals(stamp, that.stamp) &&
                 Objects.equals(menu, that.menu) &&
-                Objects.equals(user, that.user) &&
+                Objects.equals(author, that.author) &&
                 Objects.equals(comment, that.comment) &&
                 Objects.equals(createdAt, that.createdAt) &&
                 Objects.equals(images, that.images) &&
@@ -132,7 +131,7 @@ public class ReviewEntity {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, stamp, menu, user, comment, createdAt, images, tastes);
+        return Objects.hash(id, stamp, menu, author, comment, createdAt, images, tastes);
     }
 
     @Override
@@ -141,7 +140,7 @@ public class ReviewEntity {
                 "id=" + id +
                 ", stamp=" + stamp +
                 ", menu=" + menu +
-                ", user=" + user +
+                ", author=" + author +
                 ", comment='" + comment + '\'' +
                 ", createdAt=" + createdAt +
                 ", images=" + images +

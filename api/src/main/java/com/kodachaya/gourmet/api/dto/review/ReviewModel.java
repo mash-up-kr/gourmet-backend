@@ -17,15 +17,6 @@ public class ReviewModel {
     private MenuModel menu;
     private List<Taste> menuTastes;
 
-    public ReviewModel(int id, UserModel author, Stamp stamp, RestaurantModel restaurant, MenuModel menu, List<Taste> menuTastes) {
-        this.id = id;
-        this.author = author;
-        this.stamp = stamp;
-        this.restaurant = restaurant;
-        this.menu = menu;
-        this.menuTastes = menuTastes;
-    }
-
     public int getId() {
         return id;
     }
