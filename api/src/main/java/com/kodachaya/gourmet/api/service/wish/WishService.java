@@ -14,4 +14,7 @@ public interface WishService {
 
 
     Optional<WishEntity> bookmarkWish(int userId, int wishId);
+
+
+    int getWishCount();
 }

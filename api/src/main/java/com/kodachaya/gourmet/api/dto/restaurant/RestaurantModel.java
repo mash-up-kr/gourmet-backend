@@ -1,15 +1,21 @@
 package com.kodachaya.gourmet.api.dto.restaurant;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.Optional;
 
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class RestaurantModel {
     private int id;
     private String name;
     private Optional<Double> latitude;
     private Optional<Double> longitude;
     private String address;
+
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime registeredTime;
 
     public int getId() {
@@ -36,12 +42,21 @@ public class RestaurantModel {
         this.latitude = latitude;
     }
 
+
+    public void setLatitude(Double latitude) {
+        this.latitude = Optional.ofNullable(latitude);
+    }
+
     public Optional<Double> getLongitude() {
         return longitude;
     }
 
     public void setLongitude(Optional<Double> longitude) {
         this.longitude = longitude;
+    }
+
+    public void setLongitude(Double longitude) {
+        this.longitude = Optional.ofNullable(longitude);
     }
 
     public String getAddress() {

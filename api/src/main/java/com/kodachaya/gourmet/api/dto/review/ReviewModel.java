@@ -1,5 +1,6 @@
 package com.kodachaya.gourmet.api.dto.review;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.kodachaya.gourmet.api.dto.Stamp;
 import com.kodachaya.gourmet.api.dto.menu.MenuModel;
 import com.kodachaya.gourmet.api.dto.restaurant.RestaurantModel;
@@ -8,6 +9,7 @@ import com.kodachaya.gourmet.api.dto.user.UserModel;
 import java.util.List;
 import java.util.Objects;
 
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class ReviewModel {
 
     private int id;

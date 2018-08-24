@@ -1,5 +1,8 @@
 package com.kodachaya.gourmet.api.dto.wish;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.kodachaya.gourmet.api.dto.menu.MenuModel;
 import com.kodachaya.gourmet.api.dto.restaurant.RestaurantModel;
 import com.kodachaya.gourmet.api.dto.review.ReviewModel;
@@ -7,6 +10,7 @@ import com.kodachaya.gourmet.api.dto.review.ReviewModel;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class WishModel {
 
     private int wishId;
@@ -15,6 +19,7 @@ public class WishModel {
 
     private RestaurantModel restaurant;
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime wishedAt;
 
     private ReviewModel review;

@@ -1,12 +1,13 @@
 package com.kodachaya.gourmet.api.dto;
 
 import java.util.List;
+import java.util.Optional;
 
 public class BaseListModel<T> {
 
     private int count;
     private int totalCount;
-    private int cursor;
+    private Optional<Integer> cursor;
     private List<T> data;
 
     public int getCount() {
@@ -25,12 +26,12 @@ public class BaseListModel<T> {
         this.totalCount = totalCount;
     }
 
-    public int getCursor() {
+    public Optional<Integer> getCursor() {
         return cursor;
     }
 
-    public void setCursor(int cursor) {
-        this.cursor = cursor;
+    public void setCursor(Integer cursor) {
+        this.cursor = Optional.ofNullable(cursor);
     }
 
     public List<T> getData() {
