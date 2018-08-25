@@ -1,5 +1,7 @@
 package com.kodachaya.gourmet.api.entity.user;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -25,6 +27,8 @@ public class UserEntity {
     @Column(name = "introduce", nullable = true)
     private String introduce;
 
+    @Column(name = "profile", nullable = true)
+    private String profile;
 
     @Column(name = "createdAt", nullable = false)
     private LocalDateTime createdAt;
@@ -97,6 +101,12 @@ public class UserEntity {
         this.introduce = introduce;
     }
 
+    public void setProfile(String profile) {
+        this.profile = profile;
+    }
+
+    public String getProfile() { return profile; }
+
     public LocalDateTime getCreatedAt() {
         return createdAt;
     }
@@ -131,6 +141,7 @@ public class UserEntity {
                 Objects.equals(username, that.username) &&
                 Objects.equals(password, that.password) &&
                 Objects.equals(introduce, that.introduce) &&
+                Objects.equals(profile, that.profile) &&
                 Objects.equals(createdAt, that.createdAt) &&
                 Objects.equals(followings, that.followings) &&
                 Objects.equals(followers, that.followers);
@@ -138,7 +149,7 @@ public class UserEntity {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, username, password, isPublic, introduce, createdAt, followings, followers);
+        return Objects.hash(id, username, password, isPublic, introduce, profile, createdAt, followings, followers);
     }
 
     @Override
@@ -149,6 +160,7 @@ public class UserEntity {
                 ", password='" + password + '\'' +
                 ", isPublic=" + isPublic +
                 ", introduce='" + introduce + '\'' +
+                ", profile='" + profile + '\'' +
                 ", createdAt=" + createdAt +
                 ", followings=" + followings +
                 ", followers=" + followers +

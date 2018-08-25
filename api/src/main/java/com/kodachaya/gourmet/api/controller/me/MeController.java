@@ -1,5 +1,13 @@
 package com.kodachaya.gourmet.api.controller.me;
 
+import com.amazonaws.auth.AWSStaticCredentialsProvider;
+import com.amazonaws.auth.BasicAWSCredentials;
+import com.amazonaws.client.builder.AwsClientBuilder;
+import com.amazonaws.services.s3.AmazonS3;
+import com.amazonaws.services.s3.AmazonS3ClientBuilder;
+import com.amazonaws.services.s3.model.AmazonS3Exception;
+import com.amazonaws.services.s3.model.ObjectMetadata;
+import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.kodachaya.gourmet.api.dto.BaseListModel;
 import com.kodachaya.gourmet.api.dto.me.MeCommand;
 import com.kodachaya.gourmet.api.dto.review.ReviewModel;
@@ -16,6 +24,7 @@ import com.kodachaya.gourmet.api.exception.UnauthorizedException;
 import com.kodachaya.gourmet.api.config.CustomUserDetails;
 import com.kodachaya.gourmet.api.service.user.UserService;
 import com.kodachaya.gourmet.api.service.wish.WishService;
+import com.kodachaya.gourmet.api.service.storage.StorageService;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +34,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
+import java.io.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -34,13 +44,19 @@ import java.util.Optional;
 @RestController
 public class MeController {
 
+
+    private final StorageService storageService;
+
+    public MeController(StorageService storageService) {
+        this.storageService = storageService;
+    }
+
     @Autowired
     private UserService userService;
 
 
     @Autowired
     private WishService wishService;
-
 
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Success", response = UserModel.class),
@@ -56,6 +72,7 @@ public class MeController {
         user.setUsername(username);
         user.setIsPublic(entity.isPublic());
         user.setIntroduce(entity.getIntroduce());
+        user.setProfileImage(entity.getProfile());
         user.setFollowerCount(entity.getFollowers().size());
         user.setFollowingCount(entity.getFollowings().size());
         user.setStampCount(0);
@@ -70,20 +87,23 @@ public class MeController {
             @ApiResponse(code = 401, message = "Unauthorized"),
             @ApiResponse(code = 500, message = "Failure")})
     @RequestMapping(value = "/me", method = RequestMethod.PUT)
-    public void putMe(@RequestBody MeCommand command, HttpServletResponse response) {
+    public void putMe(MeCommand command, HttpServletResponse response) throws FileNotFoundException {
 
         if (command == null || StringUtils.isEmpty(command.getIntroduce()) && StringUtils.isEmpty(command.getProfile())) {
             throw new BadRequestException("Please input the introduce or profile");
         }
 
         // upload profile to storage
+        String profileImage = storageService.uploadProfile(command.getProfile());
+        String introduce = command.getIntroduce();
+
         // put your code by using user service
 
         response.setStatus(HttpStatus.ACCEPTED.value());
     }
 
 
-   
+
 
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Success"),
