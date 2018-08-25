@@ -1,20 +1,28 @@
 package com.kodachaya.gourmet.api.service.wish;
 
+import com.kodachaya.gourmet.api.entity.restaurant.MenuEntity;
 import com.kodachaya.gourmet.api.entity.wish.WishEntity;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
-import java.util.List;
 import java.util.Optional;
 
 public interface WishService {
 
-    List<WishEntity> getWishes(int userId, int cursor, int count);
+    Page<WishEntity> getWishes(int userId, Pageable pageable);
 
 
-    boolean deleteWish(int userId, int wishId);
+    boolean deleteWish(int wishId);
+
+
+    WishEntity makeWish(int userId, MenuEntity menu);
+
+
+    WishEntity makeWish(int userId, int reviewId);
 
 
     Optional<WishEntity> bookmarkWish(int userId, int wishId);
 
 
-    int getWishCount();
+    int getWishCount(int userId);
 }
