@@ -87,8 +87,8 @@ public class UserModel {
         return isFollowing;
     }
 
-    public void setIsFollowing(boolean isFollowing) {
-        this.isFollowing = Optional.of(isFollowing);
+    public void setIsFollowing(Boolean isFollowing) {
+        this.isFollowing = Optional.ofNullable(isFollowing);
     }
 
     public Optional<Boolean> getIsPublic() {
