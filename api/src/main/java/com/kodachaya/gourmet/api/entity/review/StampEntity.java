@@ -18,6 +18,11 @@ public class StampEntity {
     @Column(name = "expression", nullable = false)
     private Stamp expression;
 
+    public StampEntity() {}
+
+    public StampEntity(Stamp expression) {
+        this.expression = expression;
+    }
 
     public int getId() {
         return id;

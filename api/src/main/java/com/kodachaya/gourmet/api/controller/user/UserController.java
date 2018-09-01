@@ -1,6 +1,5 @@
 package com.kodachaya.gourmet.api.controller.user;
 
-import com.kodachaya.gourmet.api.config.CustomUserDetails;
 import com.kodachaya.gourmet.api.controller.mapper.UserMapper;
 import com.kodachaya.gourmet.api.dto.BaseListModel;
 import com.kodachaya.gourmet.api.dto.Stamp;
@@ -11,13 +10,11 @@ import com.kodachaya.gourmet.api.dto.review.Taste;
 import com.kodachaya.gourmet.api.dto.user.UserModel;
 import com.kodachaya.gourmet.api.entity.user.UserEntity;
 import com.kodachaya.gourmet.api.exception.NotFoundException;
-import com.kodachaya.gourmet.api.exception.UnauthorizedException;
 import com.kodachaya.gourmet.api.service.user.UserService;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
@@ -88,7 +85,7 @@ public class UserController {
         BaseListModel<ReviewModel> response = new BaseListModel<>();
         response.setTotalCount(100);
         response.setCount(15);
-        response.setCursor(16);
+        response.setNextPage(16);
 
         List<ReviewModel> reviews = new ArrayList<>(15);
         for (int i = 0; i < 15; i++) {

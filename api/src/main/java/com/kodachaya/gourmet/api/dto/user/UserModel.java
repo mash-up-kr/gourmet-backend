@@ -16,7 +16,7 @@ public class UserModel {
     private int followingCount;
     private int followerCount;
     private Optional<Boolean> isFollowing;
-    private int stampCount;
+    private Optional<Integer> stampCount;
     private Optional<Integer> wishCount;
 
     public int getId() {
@@ -51,20 +51,20 @@ public class UserModel {
         this.profileImage = Optional.ofNullable(profileImage);
     }
 
-    public int getStampCount() {
+    public Optional<Integer> getStampCount() {
         return stampCount;
     }
 
-    public void setStampCount(int stampCount) {
-        this.stampCount = stampCount;
+    public void setStampCount(Integer stampCount) {
+        this.stampCount = Optional.ofNullable(stampCount);
     }
 
     public Optional<Integer> getWishCount() {
         return wishCount;
     }
 
-    public void setWishCount(int wishCount) {
-        this.wishCount = Optional.of(wishCount);
+    public void setWishCount(Integer wishCount) {
+        this.wishCount = Optional.ofNullable(wishCount);
     }
 
     public int getFollowingCount() {

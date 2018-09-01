@@ -7,7 +7,7 @@ public class BaseListModel<T> {
 
     private int count;
     private int totalCount;
-    private Optional<Integer> cursor;
+    private Optional<Integer> nextPage;
     private List<T> data;
 
     public int getCount() {
@@ -26,12 +26,12 @@ public class BaseListModel<T> {
         this.totalCount = totalCount;
     }
 
-    public Optional<Integer> getCursor() {
-        return cursor;
+    public Optional<Integer> getNextPage() {
+        return nextPage;
     }
 
-    public void setCursor(Integer cursor) {
-        this.cursor = Optional.ofNullable(cursor);
+    public void setNextPage(Integer nextPage) {
+        this.nextPage = Optional.ofNullable(nextPage);
     }
 
     public List<T> getData() {
@@ -47,7 +47,7 @@ public class BaseListModel<T> {
         return "BaseListModel{" +
                 "count=" + count +
                 ", totalCount=" + totalCount +
-                ", cursor=" + cursor +
+                ", nextPage=" + nextPage +
                 ", data=" + data +
                 '}';
     }
