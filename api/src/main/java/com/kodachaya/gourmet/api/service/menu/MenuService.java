@@ -8,16 +8,19 @@ import java.util.Optional;
 
 public interface MenuService {
 
-    Optional<MenuEntity> create(int restaurantId, String name);
+    boolean exists(int restaurantId, String name);
 
 
-    Optional<MenuEntity> create(int restaurantId, String name, int price);
+    MenuEntity create(int restaurantId, String name);
 
 
-    Optional<MenuEntity> update(int menuId, int price);
+    MenuEntity create(int restaurantId, String name, Integer price);
 
 
-    Optional<MenuEntity> find(int restaurantId, String query);
+    MenuEntity update(int menuId, Integer price);
+
+
+    List<MenuEntity> search(int restaurantId, String name);
 
 
     List<MenuEntity> findAll(int restaurantId);

@@ -3,6 +3,9 @@ package com.kodachaya.gourmet.api.service.review;
 import com.kodachaya.gourmet.api.dto.Stamp;
 import com.kodachaya.gourmet.api.dto.review.Taste;
 import com.kodachaya.gourmet.api.entity.review.ReviewEntity;
+import com.kodachaya.gourmet.api.entity.user.UserEntity;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 import java.util.Optional;
@@ -10,22 +13,21 @@ import java.util.Optional;
 public interface ReviewService {
 
 
-    List<ReviewEntity> getReviews(int userId, int cursor, int count);
-
+    Page<ReviewEntity> getReviews(UserEntity user, Pageable pageable);
 
 
     Optional<ReviewEntity> getReview(int reviewId);
 
 
-
-    boolean wishReview(int userId, int reviewId);
-
+    int getReviewCount(int userId);
 
 
-    Optional<ReviewEntity> create(int userId, int menuId, List<Taste> tastes, String comment, Stamp stamp);
+    ReviewEntity create(int userId, int menuId, List<Taste> tastes, String comment, Stamp stamp);
 
 
+    ReviewEntity create(int userId, int menuId, int wishId, List<Taste> tastes, String comment, Stamp stamp);
 
-    Optional<ReviewEntity> update(int reviewId, List<String> imageUrls);
+
+    ReviewEntity update(int userId, int reviewId, List<String> imageUrls);
 
 }

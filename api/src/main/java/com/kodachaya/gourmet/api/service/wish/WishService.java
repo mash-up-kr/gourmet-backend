@@ -1,6 +1,7 @@
 package com.kodachaya.gourmet.api.service.wish;
 
 import com.kodachaya.gourmet.api.entity.restaurant.MenuEntity;
+import com.kodachaya.gourmet.api.entity.user.UserEntity;
 import com.kodachaya.gourmet.api.entity.wish.WishEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -9,7 +10,7 @@ import java.util.Optional;
 
 public interface WishService {
 
-    Page<WishEntity> getWishes(int userId, Pageable pageable);
+    Page<WishEntity> getWishes(UserEntity user, Pageable pageable);
 
 
     boolean deleteWish(int wishId);

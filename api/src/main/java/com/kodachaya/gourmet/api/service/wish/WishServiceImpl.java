@@ -5,6 +5,7 @@ import com.kodachaya.gourmet.api.dao.user.UserDao;
 import com.kodachaya.gourmet.api.dao.wish.WishDao;
 import com.kodachaya.gourmet.api.entity.restaurant.MenuEntity;
 import com.kodachaya.gourmet.api.entity.review.ReviewEntity;
+import com.kodachaya.gourmet.api.entity.user.UserEntity;
 import com.kodachaya.gourmet.api.entity.wish.WishEntity;
 import com.kodachaya.gourmet.api.exception.AlreadyExistsException;
 import com.kodachaya.gourmet.api.exception.NotFoundException;
@@ -31,8 +32,8 @@ public class WishServiceImpl implements WishService {
 
 
     @Override
-    public Page<WishEntity> getWishes(int userId, Pageable pageable) {
-        return wishDao.findAllByUserId(userId, pageable);
+    public Page<WishEntity> getWishes(UserEntity user, Pageable pageable) {
+        return wishDao.findAllByUser(user, pageable);
     }
 
 
@@ -47,7 +48,7 @@ public class WishServiceImpl implements WishService {
     @Transactional
     @Override
     public WishEntity makeWish(int userId, MenuEntity menu) {
-        if (wishDao.findByMenuId(menu.getId()).isPresent()) {
+        if (wishDao.findByMenu(menu).isPresent()) {
             throw new AlreadyExistsException("Already wished.");
         }
 
@@ -60,11 +61,11 @@ public class WishServiceImpl implements WishService {
     @Transactional
     @Override
     public WishEntity makeWish(int userId, int reviewId) {
-        if (wishDao.findByMenuId(reviewId).isPresent()) {
+        ReviewEntity review = reviewDao.findById(reviewId).orElseThrow(() -> new NotFoundException("Not Found Review"));
+        if (wishDao.findByReview(review).isPresent()) {
             throw new AlreadyExistsException("Already wished.");
         }
 
-        ReviewEntity review = reviewDao.findById(reviewId).orElseThrow(() -> new NotFoundException("Not Found Review"));
         WishEntity wish = new WishEntity();
         wish.setUser(userDao.findById(userId).orElseThrow(() -> new NotFoundException("Not Found User")));
         wish.setMenu(review.getMenu());
@@ -79,6 +80,6 @@ public class WishServiceImpl implements WishService {
 
     @Override
     public int getWishCount(int userId) {
-        return wishDao.countByUserId(userId);
+        return wishDao.getCountByUserId(userId);
     }
 }
