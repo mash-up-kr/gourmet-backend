@@ -3,6 +3,7 @@ package com.kodachaya.gourmet.api.service.user;
 import com.kodachaya.gourmet.api.dao.user.UserDao;
 import com.kodachaya.gourmet.api.entity.user.UserEntity;
 import com.kodachaya.gourmet.api.exception.BadRequestException;
+import com.kodachaya.gourmet.api.exception.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -34,19 +35,22 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
-    public Optional<UserEntity> save(String username, String password) {
+    public UserEntity save(String username, String password) {
         // check already username exists.
         if (dao.findByUsername(username).isPresent()) {
             throw new BadRequestException("Already Exists");
         }
 
         // save to database
-        return Optional.of(dao.save(new UserEntity(username, passwordEncoder.encode(password))));
+        return dao.save(new UserEntity(username, passwordEncoder.encode(password)));
     }
 
     @Override
-    public Optional<UserEntity> updateAdditionalInfo(int userId, Optional<String> profileImageUrl, Optional<String> introduce) {
-        return Optional.empty();
+    public UserEntity updateAdditionalInfo(int userId, String profileImageUrl, String introduce) {
+        UserEntity user = dao.findById(userId).orElseThrow(() -> new NotFoundException("Not Found User"));
+        user.setIntroduce(introduce);
+        user.setProfile(profileImageUrl);
+        return dao.save(user);
     }
 
     @Override

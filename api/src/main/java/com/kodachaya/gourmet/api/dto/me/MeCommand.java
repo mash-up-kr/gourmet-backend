@@ -1,15 +1,17 @@
 package com.kodachaya.gourmet.api.dto.me;
 
+import org.springframework.web.multipart.MultipartFile;
+
 public class MeCommand {
 
-    private String introduce;
-    private String profile;
+    public String introduce;
+    public MultipartFile profile;
 
     public String getIntroduce() {
         return introduce;
     }
 
-    public String getProfile() {
+    public MultipartFile getProfile() {
         return profile;
     }
 
