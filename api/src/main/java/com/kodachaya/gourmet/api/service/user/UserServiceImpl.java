@@ -50,8 +50,6 @@ public class UserServiceImpl implements UserService {
         UserEntity user = dao.findById(userId).orElseThrow(() -> new NotFoundException("Not Found User"));
         user.setIntroduce(introduce);
         user.setProfile(profileImageUrl);
-        // update
-
         return dao.save(user);
     }
 

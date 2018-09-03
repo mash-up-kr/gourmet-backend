@@ -29,9 +29,11 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
@@ -86,20 +88,33 @@ public class MeController {
             @ApiResponse(code = 400, message = "Bad Request"),
             @ApiResponse(code = 401, message = "Unauthorized"),
             @ApiResponse(code = 500, message = "Failure")})
-    @RequestMapping(value = "/me", method = RequestMethod.PUT)
-    public void putMe(MeCommand command, HttpServletResponse response) throws FileNotFoundException {
+    @RequestMapping(value = "/me", method = RequestMethod.PUT, consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public UserModel putMe(@RequestPart("profile") MultipartFile profileFile,
+                           @RequestPart("introduce") String introduce) throws FileNotFoundException {
 
-        if (command == null || StringUtils.isEmpty(command.getIntroduce()) && StringUtils.isEmpty(command.getProfile())) {
-            throw new BadRequestException("Please input the introduce or profile");
-        }
+//        if (command == null || StringUtils.isEmpty(command.getIntroduce()) && StringUtils.isEmpty(command.getProfile())) {
+//            throw new BadRequestException("Please input the introduce or profile");
+//        }
 
         // upload profile to storage
-        String profileImage = storageService.uploadProfile(command.getProfile());
-        String introduce = command.getIntroduce();
+        String profileImageUrl= storageService.uploadProfile(profileFile);
 
-        // put your code by using user service
+        String username = ((CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername();
+        UserEntity entity = userService.get(username).orElseThrow(UnauthorizedException::new);
+        entity = userService.updateAdditionalInfo(entity.getId(), profileImageUrl, introduce);
 
-        response.setStatus(HttpStatus.ACCEPTED.value());
+
+        UserModel user = new UserModel();
+        user.setId(entity.getId());
+        user.setUsername(username);
+        user.setIsPublic(entity.isPublic());
+        user.setIntroduce(entity.getIntroduce());
+        user.setProfileImage(entity.getProfile());
+        user.setFollowerCount(entity.getFollowers().size());
+        user.setFollowingCount(entity.getFollowings().size());
+        user.setStampCount(0);
+        user.setWishCount(0);
+        return user;
     }
 
 
