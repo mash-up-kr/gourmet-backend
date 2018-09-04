@@ -42,8 +42,6 @@ public class StorageServiceImpl implements StorageService {
     public String uploadProfile(MultipartFile multipartFile) throws FileNotFoundException{
 
         // create folder
-        String folderName = "profile";
-
         UUID uuid = UUID.randomUUID();
         String UUIDStringFilePath = uuid.toString();
 
@@ -56,15 +54,16 @@ public class StorageServiceImpl implements StorageService {
         fos = new FileOutputStream(file);
         try {
             fos.write(multipartFile.getBytes());
+            fos.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
 
         try {
-            PutObjectRequest putObjectRequest =
-                    new PutObjectRequest(BUCKET_NAME, "profile/" + UUIDStringFilePath, file);
+            PutObjectRequest putObjectRequest = new PutObjectRequest(BUCKET_NAME, "profile/" + UUIDStringFilePath, file);
             putObjectRequest.setCannedAcl(CannedAccessControlList.PublicRead);
             S3.putObject(putObjectRequest);
+            file.delete();
         } catch (AmazonServiceException e) {
             e.printStackTrace();
         }

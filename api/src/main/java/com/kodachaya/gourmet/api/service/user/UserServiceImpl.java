@@ -48,8 +48,14 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserEntity updateAdditionalInfo(int userId, String profileImageUrl, String introduce) {
         UserEntity user = dao.findById(userId).orElseThrow(() -> new NotFoundException("Not Found User"));
-        user.setIntroduce(introduce);
-        user.setProfile(profileImageUrl);
+        if (profileImageUrl != null && profileImageUrl.length() != 0) {
+            user.setProfile(profileImageUrl);
+        }
+
+        if (introduce != null && introduce.length() != 0) {
+            user.setIntroduce(introduce);
+        }
+
         return dao.save(user);
     }
 

@@ -10,6 +10,7 @@ public class UserMapper {
         UserModel user = new UserModel();
         user.setId(entity.getId());
         user.setUsername(entity.getUsername());
+        user.setProfileImage(entity.getProfile());
         user.setIntroduce(entity.getIntroduce());
         user.setFollowingCount(entity.getFollowings().size());
         user.setFollowerCount(entity.getFollowers().size());
@@ -22,6 +23,7 @@ public class UserMapper {
         UserModel user = new UserModel();
         user.setId(entity.getId());
         user.setUsername(entity.getUsername());
+        user.setProfileImage(entity.getProfile());
         user.setIntroduce(entity.getIntroduce());
         user.setFollowingCount(entity.getFollowings().size());
         user.setFollowerCount(entity.getFollowers().size());
@@ -35,6 +37,7 @@ public class UserMapper {
         UserModel user = new UserModel();
         user.setId(entity.getId());
         user.setUsername(entity.getUsername());
+        user.setProfileImage(entity.getProfile());
         user.setIntroduce(entity.getIntroduce());
         user.setFollowingCount(entity.getFollowings().size());
         user.setFollowerCount(entity.getFollowers().size());

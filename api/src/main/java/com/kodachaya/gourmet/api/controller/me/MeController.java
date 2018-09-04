@@ -1,6 +1,7 @@
 package com.kodachaya.gourmet.api.controller.me;
 
 import com.kodachaya.gourmet.api.controller.mapper.ReviewMapper;
+import com.kodachaya.gourmet.api.controller.mapper.UserMapper;
 import com.kodachaya.gourmet.api.controller.mapper.WishMapper;
 import com.kodachaya.gourmet.api.dto.BaseListModel;
 import com.kodachaya.gourmet.api.dto.review.ReviewModel;
@@ -9,6 +10,7 @@ import com.kodachaya.gourmet.api.dto.wish.WishModel;
 import com.kodachaya.gourmet.api.entity.review.ReviewEntity;
 import com.kodachaya.gourmet.api.entity.user.UserEntity;
 import com.kodachaya.gourmet.api.entity.wish.WishEntity;
+import com.kodachaya.gourmet.api.exception.BadRequestException;
 import com.kodachaya.gourmet.api.exception.NotFoundException;
 import com.kodachaya.gourmet.api.exception.UnauthorizedException;
 import com.kodachaya.gourmet.api.config.CustomUserDetails;
@@ -25,6 +27,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import java.io.*;
@@ -60,19 +63,7 @@ public class MeController {
     public @ResponseBody UserModel getMe() {
         String username = ((CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername();
         UserEntity entity = userService.get(username).orElseThrow(UnauthorizedException::new);
-
-        UserModel user = new UserModel();
-        user.setId(entity.getId());
-        user.setUsername(username);
-        user.setIsPublic(entity.isPublic());
-        user.setIntroduce(entity.getIntroduce());
-        user.setProfileImage(entity.getProfile());
-        user.setFollowerCount(entity.getFollowers().size());
-        user.setFollowingCount(entity.getFollowings().size());
-        user.setStampCount(0);
-        user.setWishCount(0);
-        user.setProfileImage(null);
-        return user;
+        return UserMapper.map(entity, wishService.getWishCount(entity.getId()), reviewService.getReviewCount(entity.getId()));
   }
 
 
@@ -82,32 +73,24 @@ public class MeController {
             @ApiResponse(code = 401, message = "Unauthorized"),
             @ApiResponse(code = 500, message = "Failure")})
     @RequestMapping(value = "/me", method = RequestMethod.PUT, consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public UserModel putMe(@RequestPart("profile") MultipartFile profileFile,
-                           @RequestPart("introduce") String introduce) throws FileNotFoundException {
+    public UserModel putMe(@RequestPart(value = "profile", required = false) MultipartFile profileFile,
+                           @RequestPart(value = "introduce", required = false) String introduce) throws FileNotFoundException {
 
-//        if (command == null || StringUtils.isEmpty(command.getIntroduce()) && StringUtils.isEmpty(command.getProfile())) {
-//            throw new BadRequestException("Please input the introduce or profile");
-//        }
+        if (profileFile == null && (introduce == null || introduce.length() == 0)) {
+            throw new BadRequestException("Please input profile or introduce");
+        }
 
-        // upload profile to storage
-        String profileImageUrl= storageService.uploadProfile(profileFile);
+        String profileImageUrl = null;
+        if (profileFile != null) {
+            // upload profile to storage
+            profileImageUrl = storageService.uploadProfile(profileFile);
+        }
+
 
         String username = ((CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername();
         UserEntity entity = userService.get(username).orElseThrow(UnauthorizedException::new);
         entity = userService.updateAdditionalInfo(entity.getId(), profileImageUrl, introduce);
-
-
-        UserModel user = new UserModel();
-        user.setId(entity.getId());
-        user.setUsername(username);
-        user.setIsPublic(entity.isPublic());
-        user.setIntroduce(entity.getIntroduce());
-        user.setProfileImage(entity.getProfile());
-        user.setFollowerCount(entity.getFollowers().size());
-        user.setFollowingCount(entity.getFollowings().size());
-        user.setStampCount(0);
-        user.setWishCount(0);
-        return user;
+        return UserMapper.map(entity, wishService.getWishCount(entity.getId()), reviewService.getReviewCount(entity.getId()));
     }
 
 
