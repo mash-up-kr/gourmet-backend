@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class MenuServiceImpl implements MenuService {
@@ -24,26 +25,41 @@ public class MenuServiceImpl implements MenuService {
 
 
     @Override
-    public boolean exists(int restaurantId, String name) {
-        return menuDao.existsByRestaurantAndName(restaurantId, name);
+    public boolean exists(RestaurantEntity restaurant, String name) {
+        return menuDao.existsByRestaurantAndName(restaurant, name);
     }
 
     @Override
-    public MenuEntity create(int restaurantId, String name) {
-        return this.create(restaurantId, name, null);
+    public MenuEntity create(RestaurantEntity restaurant, String name) {
+        return this.create(restaurant, name, null);
     }
 
-    @Override
     @Transactional
-    public MenuEntity create(int restaurantId, String name, Integer price) {
-        if (menuDao.findByRestaurantAndName(restaurantId, name).isPresent()) {
+    @Override
+    public MenuEntity create(RestaurantEntity restaurant, String name, Integer price) {
+        if (menuDao.findByRestaurantAndName(restaurant, name).isPresent()) {
             throw new AlreadyExistsException("Already Menu Exists");
         }
 
-        RestaurantEntity restaurant = restaurantDao.findById(restaurantId).orElseThrow(() -> new NotFoundException("Not Found Restaurant"));
         MenuEntity menu = new MenuEntity(name, restaurant, price);
         return menuDao.save(menu);
     }
+
+    @Override
+    public List<MenuEntity> search(RestaurantEntity restaurant, String name) {
+        return menuDao.findAllByRestaurantAndNameContaining(restaurant, name);
+    }
+
+    @Override
+    public List<MenuEntity> findAll(RestaurantEntity restaurant) {
+        return menuDao.findAllByRestaurant(restaurant);
+    }
+
+    @Override
+    public Optional<MenuEntity> find(RestaurantEntity restaurant, String name) {
+        return menuDao.findByRestaurantAndName(restaurant, name);
+    }
+
 
     @Override
     @Transactional
@@ -53,13 +69,4 @@ public class MenuServiceImpl implements MenuService {
         return menuDao.save(menu);
     }
 
-    @Override
-    public List<MenuEntity> search(int restaurantId, String name) {
-        return menuDao.findAllByRestaurantAndNameContaining(restaurantId, name);
-    }
-
-    @Override
-    public List<MenuEntity> findAll(int restaurantId) {
-        return menuDao.findAllByRestaurant(restaurantId);
-    }
 }

@@ -10,6 +10,7 @@ public class ReviewPostCommand {
     private MenuPostCommand menu;
     private String command;
     private Stamp stamp;
+    private Integer wishId;
 
     public RestaurantPostCommand getRestaurant() {
         return restaurant;
@@ -27,6 +28,10 @@ public class ReviewPostCommand {
         return stamp;
     }
 
+    public Integer getWishId() {
+        return wishId;
+    }
+
     @Override
     public String toString() {
         return "ReviewPostCommand{" +
@@ -34,6 +39,7 @@ public class ReviewPostCommand {
                 ", menu=" + menu +
                 ", command='" + command + '\'' +
                 ", stamp=" + stamp +
+                ", wishId=" + wishId +
                 '}';
     }
 }

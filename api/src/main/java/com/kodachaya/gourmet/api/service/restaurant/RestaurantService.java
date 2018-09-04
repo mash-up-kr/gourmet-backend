@@ -3,6 +3,7 @@ package com.kodachaya.gourmet.api.service.restaurant;
 import com.kodachaya.gourmet.api.entity.restaurant.RestaurantEntity;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface RestaurantService {
 
@@ -20,6 +21,9 @@ public interface RestaurantService {
 
 
     RestaurantEntity update(int restaurantId, String address, Double latitude, Double longitude);
+
+
+    Optional<RestaurantEntity> find(String name);
 
 
     List<RestaurantEntity> search(String name);

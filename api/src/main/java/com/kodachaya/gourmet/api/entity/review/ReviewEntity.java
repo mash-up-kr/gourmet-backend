@@ -50,6 +50,13 @@ public class ReviewEntity {
     private Set<ReviewTasteEntity> tastes;
 
 
+    @PrePersist
+    public void persist() {
+        this.createdAt = LocalDateTime.now();
+    }
+
+
+
     public int getId() {
         return id;
     }

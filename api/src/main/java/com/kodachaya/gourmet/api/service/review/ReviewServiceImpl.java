@@ -11,7 +11,6 @@ import com.kodachaya.gourmet.api.dto.Stamp;
 import com.kodachaya.gourmet.api.dto.review.Taste;
 import com.kodachaya.gourmet.api.entity.restaurant.MenuEntity;
 import com.kodachaya.gourmet.api.entity.review.ReviewEntity;
-import com.kodachaya.gourmet.api.entity.review.ReviewTasteEntity;
 import com.kodachaya.gourmet.api.entity.review.StampEntity;
 import com.kodachaya.gourmet.api.entity.user.UserEntity;
 import com.kodachaya.gourmet.api.exception.NotFoundException;
@@ -19,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -66,44 +66,32 @@ public class ReviewServiceImpl implements ReviewService {
     }
 
     @Override
+    @Transactional
     public ReviewEntity create(int userId, int menuId, List<Taste> tastes, String comment, Stamp stamp) {
-        MenuEntity menu = menuDao.findById(menuId).orElseThrow(() -> new NotFoundException("Not Found Menu"));
-        wishDao.findByMenu(menu).ifPresent((wish) -> create(userId, menuId, wish.getId(), tastes, comment, stamp));
-
         UserEntity author = userDao.findById(userId).orElseThrow(() -> new NotFoundException("Not Found User"));
+        MenuEntity menu = menuDao.findById(menuId).orElseThrow(() -> new NotFoundException("Not Found Menu"));
+        StampEntity stampEntity = stampDao.findByExpression(stamp);
+
+        wishDao.findByMenu(menu).ifPresent(wishDao::delete);
+
         ReviewEntity review = new ReviewEntity();
         review.setAuthor(author);
         review.setComment(comment);
         review.setMenu(menu);
-        review.setStamp(new StampEntity(stamp));
-        return null;
-    }
-
-    @Override
-    public ReviewEntity create(int userId, int menuId, int wishId, List<Taste> tastes, String comment, Stamp stamp) {
-        MenuEntity menuEntity = menuDao.findById(menuId).orElseThrow(() -> new NotFoundException("Not Found Menu"));
-        UserEntity userEntity = userDao.findById(userId).orElseThrow(() -> new NotFoundException("Not Found User"));
-        StampEntity stampEntity = stampDao.findByExpression(stamp);
-
-        ReviewEntity review = new ReviewEntity();
-        review.setMenu(menuEntity);
-        review.setAuthor(userEntity);
-        review.setComment(comment);
         review.setStamp(stampEntity);
+        return reviewDao.save(review);
 
-        ReviewEntity savedReview = reviewDao.save(review);
-
-        tastes.stream()
-                .map(tasteDao::findByTaste)
-                .forEach(entity -> {
-                    ReviewTasteEntity reviewTasteEntity = new ReviewTasteEntity();
-                    reviewTasteEntity.setReview(savedReview);
-                    reviewTasteEntity.setTaste(entity);
-                    reviewTasteDao.save(reviewTasteEntity);
-                });
-
-        wishDao.findById(wishId).ifPresent(wishDao::delete);
-        return reviewDao.findById(savedReview.getId()).orElse(savedReview);
+//        ReviewEntity savedReview = reviewDao.save(review);
+//
+//        tastes.stream()
+//                .map(tasteDao::findByTaste)
+//                .forEach(entity -> {
+//                    ReviewTasteEntity reviewTasteEntity = new ReviewTasteEntity();
+//                    reviewTasteEntity.setReview(savedReview);
+//                    reviewTasteEntity.setTaste(entity);
+//                    reviewTasteDao.save(reviewTasteEntity);
+//                });
+//        return reviewDao.findById(savedReview.getId()).orElse(savedReview);
     }
 
     @Override

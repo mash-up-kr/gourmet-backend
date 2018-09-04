@@ -72,7 +72,7 @@ public class RestaurantEntity {
     }
 
     public Optional<Double> getLatitude() {
-        return Optional.of(latitude);
+        return Optional.ofNullable(latitude);
     }
 
     public void setLatitude(Double latitude) {

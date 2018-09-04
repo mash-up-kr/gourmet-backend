@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class RestaurantServiceImpl implements RestaurantService {
@@ -60,5 +61,10 @@ public class RestaurantServiceImpl implements RestaurantService {
     @Override
     public List<RestaurantEntity> search(String name) {
         return restaurantDao.findByNameContaining(name);
+    }
+
+    @Override
+    public Optional<RestaurantEntity> find(String name) {
+        return restaurantDao.findByName(name);
     }
 }

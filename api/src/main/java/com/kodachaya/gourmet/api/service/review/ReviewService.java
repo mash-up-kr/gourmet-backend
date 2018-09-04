@@ -25,9 +25,6 @@ public interface ReviewService {
     ReviewEntity create(int userId, int menuId, List<Taste> tastes, String comment, Stamp stamp);
 
 
-    ReviewEntity create(int userId, int menuId, int wishId, List<Taste> tastes, String comment, Stamp stamp);
-
-
     ReviewEntity update(int userId, int reviewId, List<String> imageUrls);
 
 }

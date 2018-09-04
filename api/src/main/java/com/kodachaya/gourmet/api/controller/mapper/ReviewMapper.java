@@ -23,7 +23,9 @@ public class ReviewMapper {
 
         // set tastes
         List<Taste> tastes = new ArrayList<>();
-        entity.getTastes().stream().forEach(tasteEntity -> tastes.add(tasteEntity.getTaste().getTaste()));
+        if (entity.getTastes() != null) {
+            entity.getTastes().forEach(tasteEntity -> tastes.add(tasteEntity.getTaste().getTaste()));
+        }
         review.setMenuTastes(tastes);
 
         // set menu
