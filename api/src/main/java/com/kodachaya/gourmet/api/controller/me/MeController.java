@@ -3,15 +3,12 @@ package com.kodachaya.gourmet.api.controller.me;
 import com.kodachaya.gourmet.api.controller.mapper.ReviewMapper;
 import com.kodachaya.gourmet.api.controller.mapper.WishMapper;
 import com.kodachaya.gourmet.api.dto.BaseListModel;
-import com.kodachaya.gourmet.api.dto.me.MeCommand;
 import com.kodachaya.gourmet.api.dto.review.ReviewModel;
-import com.kodachaya.gourmet.api.controller.mapper.UserMapper;
 import com.kodachaya.gourmet.api.dto.user.UserModel;
 import com.kodachaya.gourmet.api.dto.wish.WishModel;
 import com.kodachaya.gourmet.api.entity.review.ReviewEntity;
 import com.kodachaya.gourmet.api.entity.user.UserEntity;
 import com.kodachaya.gourmet.api.entity.wish.WishEntity;
-import com.kodachaya.gourmet.api.exception.BadRequestException;
 import com.kodachaya.gourmet.api.exception.NotFoundException;
 import com.kodachaya.gourmet.api.exception.UnauthorizedException;
 import com.kodachaya.gourmet.api.config.CustomUserDetails;
@@ -20,22 +17,29 @@ import com.kodachaya.gourmet.api.service.user.UserService;
 import com.kodachaya.gourmet.api.service.wish.WishService;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
+import com.kodachaya.gourmet.api.service.storage.StorageService;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
-
-import javax.servlet.http.HttpServletResponse;
+import org.springframework.web.multipart.MultipartFile;
+import java.io.*;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
 public class MeController {
+
+
+    private final StorageService storageService;
+
+    public MeController(StorageService storageService) {
+        this.storageService = storageService;
+    }
 
     @Autowired
     private UserService userService;
@@ -48,7 +52,6 @@ public class MeController {
     @Autowired
     private WishService wishService;
 
-
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Success", response = UserModel.class),
             @ApiResponse(code = 401, message = "Unauthorized"),
@@ -57,8 +60,20 @@ public class MeController {
     public @ResponseBody UserModel getMe() {
         String username = ((CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername();
         UserEntity entity = userService.get(username).orElseThrow(UnauthorizedException::new);
-        return UserMapper.map(entity, reviewService.getReviewCount(entity.getId()), wishService.getWishCount(entity.getId()));
-    }
+
+        UserModel user = new UserModel();
+        user.setId(entity.getId());
+        user.setUsername(username);
+        user.setIsPublic(entity.isPublic());
+        user.setIntroduce(entity.getIntroduce());
+        user.setProfileImage(entity.getProfile());
+        user.setFollowerCount(entity.getFollowers().size());
+        user.setFollowingCount(entity.getFollowings().size());
+        user.setStampCount(0);
+        user.setWishCount(0);
+        user.setProfileImage(null);
+        return user;
+  }
 
 
     @ApiResponses(value = {
@@ -66,17 +81,33 @@ public class MeController {
             @ApiResponse(code = 400, message = "Bad Request"),
             @ApiResponse(code = 401, message = "Unauthorized"),
             @ApiResponse(code = 500, message = "Failure")})
-    @RequestMapping(value = "/me", method = RequestMethod.PUT)
-    public void putMe(@RequestBody MeCommand command, HttpServletResponse response) {
+    @RequestMapping(value = "/me", method = RequestMethod.PUT, consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public UserModel putMe(@RequestPart("profile") MultipartFile profileFile,
+                           @RequestPart("introduce") String introduce) throws FileNotFoundException {
 
-        if (command == null || StringUtils.isEmpty(command.getIntroduce()) && StringUtils.isEmpty(command.getProfile())) {
-            throw new BadRequestException("Please input the introduce or profile");
-        }
+//        if (command == null || StringUtils.isEmpty(command.getIntroduce()) && StringUtils.isEmpty(command.getProfile())) {
+//            throw new BadRequestException("Please input the introduce or profile");
+//        }
 
         // upload profile to storage
-        // put your code by using user service
+        String profileImageUrl= storageService.uploadProfile(profileFile);
 
-        response.setStatus(HttpStatus.ACCEPTED.value());
+        String username = ((CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername();
+        UserEntity entity = userService.get(username).orElseThrow(UnauthorizedException::new);
+        entity = userService.updateAdditionalInfo(entity.getId(), profileImageUrl, introduce);
+
+
+        UserModel user = new UserModel();
+        user.setId(entity.getId());
+        user.setUsername(username);
+        user.setIsPublic(entity.isPublic());
+        user.setIntroduce(entity.getIntroduce());
+        user.setProfileImage(entity.getProfile());
+        user.setFollowerCount(entity.getFollowers().size());
+        user.setFollowingCount(entity.getFollowings().size());
+        user.setStampCount(0);
+        user.setWishCount(0);
+        return user;
     }
 
 

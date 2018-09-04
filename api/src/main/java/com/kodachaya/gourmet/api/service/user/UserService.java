@@ -11,9 +11,9 @@ public interface UserService {
 
     Optional<UserEntity> get(String username);
 
-    Optional<UserEntity> save(String username, String password);
+    UserEntity save(String username, String password);
 
-    Optional<UserEntity> updateAdditionalInfo(int userId, Optional<String> profileImageUrl, Optional<String> introduce);
+    UserEntity updateAdditionalInfo(int userId, String profileImageUrl, String introduce);
 
     boolean follow(int userId, int followUserId);
 
