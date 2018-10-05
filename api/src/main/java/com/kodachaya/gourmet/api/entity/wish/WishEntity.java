@@ -34,6 +34,10 @@ public class WishEntity {
     private LocalDateTime createdAt;
 
 
+    @Column(name = "wishImage")
+    private String wishImage;
+
+
     @PrePersist
     public void persist() {
         this.createdAt = LocalDateTime.now();
@@ -77,6 +81,14 @@ public class WishEntity {
 
     public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
+    }
+
+    public String getWishImage() {
+        return wishImage;
+    }
+
+    public void setWishImage(String wishImage) {
+        this.wishImage = wishImage;
     }
 
     @Override

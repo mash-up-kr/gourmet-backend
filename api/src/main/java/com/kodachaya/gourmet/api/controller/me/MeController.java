@@ -73,17 +73,17 @@ public class MeController {
             @ApiResponse(code = 401, message = "Unauthorized"),
             @ApiResponse(code = 500, message = "Failure")})
     @RequestMapping(value = "/me", method = RequestMethod.PUT, consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public UserModel putMe(@RequestPart(value = "profile", required = false) MultipartFile profileFile,
+    public UserModel putMe(@RequestPart(value = "profile", required = false) MultipartFile profile,
                            @RequestPart(value = "introduce", required = false) String introduce) throws FileNotFoundException {
 
-        if (profileFile == null && (introduce == null || introduce.length() == 0)) {
+        if (profile == null && (introduce == null || introduce.length() == 0)) {
             throw new BadRequestException("Please input profile or introduce");
         }
 
         String profileImageUrl = null;
-        if (profileFile != null) {
+        if (profile != null) {
             // upload profile to storage
-            profileImageUrl = storageService.uploadProfile(profileFile);
+            profileImageUrl = storageService.uploadProfile(profile);
         }
 
 

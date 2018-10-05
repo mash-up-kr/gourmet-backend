@@ -50,6 +50,10 @@ public class ReviewEntity {
     private Set<ReviewTasteEntity> tastes;
 
 
+    @Column(name = "reviewImage")
+    private String reviewImage;
+
+
     @PrePersist
     public void persist() {
         this.createdAt = LocalDateTime.now();
@@ -121,6 +125,14 @@ public class ReviewEntity {
         this.tastes = tastes;
     }
 
+    public String getReviewImage() {
+        return reviewImage;
+    }
+
+    public void setReviewImage(String reviewImage) {
+        this.reviewImage = reviewImage;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -135,6 +147,8 @@ public class ReviewEntity {
                 Objects.equals(images, that.images) &&
                 Objects.equals(tastes, that.tastes);
     }
+
+
 
     @Override
     public int hashCode() {

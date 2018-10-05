@@ -18,14 +18,18 @@ import com.kodachaya.gourmet.api.exception.UnauthorizedException;
 import com.kodachaya.gourmet.api.service.menu.MenuService;
 import com.kodachaya.gourmet.api.service.restaurant.RestaurantService;
 import com.kodachaya.gourmet.api.service.review.ReviewService;
+import com.kodachaya.gourmet.api.service.storage.StorageService;
 import com.kodachaya.gourmet.api.service.user.UserService;
 import com.kodachaya.gourmet.api.service.wish.WishService;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.FileNotFoundException;
 import java.util.Arrays;
 import java.util.Optional;
 
@@ -50,6 +54,10 @@ public class ReviewController {
 
     @Autowired
     private RestaurantService restaurantService;
+
+
+    @Autowired
+    private StorageService storageService;
 
 
     @ApiResponses(value = {
@@ -77,26 +85,31 @@ public class ReviewController {
             @ApiResponse(code = 200, message = "Success", response = ReviewModel.class),
             @ApiResponse(code = 401, message = "Unauthorized"),
             @ApiResponse(code = 500, message = "Failure")})
-    @RequestMapping(value = "/review", method = RequestMethod.POST)
-    public @ResponseBody ReviewModel create(@RequestBody ReviewPostCommand command) {
+    @RequestMapping(value = "/review", method = RequestMethod.POST, consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public @ResponseBody ReviewModel create(@RequestPart(value = "image") MultipartFile image,
+                                          @RequestPart(value = "restaurant") String restaurant,
+                                          @RequestPart(value = "address") String address,
+                                          @RequestPart(value = "menu") String menu,
+                                          @RequestPart(value = "price", required = false) Optional<Integer> price,
+                                          @RequestPart(value = "comment") String comment,
+                                          @RequestPart(value = "stamp") String stamp) throws FileNotFoundException {
+
+
+        String reviewImageUrl = storageService.uploadReviewImage(image);
+
         String username = ((CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername();
         UserEntity user = userService.get(username).orElseThrow(UnauthorizedException::new);
 
-        RestaurantPostCommand restaurantCommand = command.getRestaurant();
-        MenuPostCommand menuCommand = command.getMenu();
 
-        //TODO upload menu pictures and get urls
-        RestaurantEntity restaurant = restaurantService.find(restaurantCommand.getName())
-                .orElseGet(() -> restaurantService.create(restaurantCommand.getName(), restaurantCommand.getAddress()));
+        RestaurantEntity restaurantEntity = restaurantService.find(restaurant)
+                .orElseGet(() -> restaurantService.create(restaurant, address));
 
-        MenuEntity menu = menuService.find(restaurant, menuCommand.getName())
-                .orElseGet(() -> menuService.create(restaurant, menuCommand.getName(), menuCommand.getPrice().orElse(0)));
+        MenuEntity menuEntity = menuService.find(restaurantEntity, menu)
+                .orElseGet(() -> menuService.create(restaurantEntity, menu, price.orElse(0)));
 
-        String comment = command.getComment();
-        Stamp stamp = command.getStamp();
-
-        ReviewEntity review = reviewService.create(user.getId(), menu.getId(), Arrays.asList(), comment, stamp);
+        ReviewEntity review = reviewService.create(user.getId(), menuEntity.getId(), Arrays.asList(), comment, Stamp.valueOf(stamp), reviewImageUrl);
         return ReviewMapper.map(review);
+
     }
 
 

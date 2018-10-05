@@ -22,7 +22,7 @@ public interface ReviewService {
     int getReviewCount(int userId);
 
 
-    ReviewEntity create(int userId, int menuId, List<Taste> tastes, String comment, Stamp stamp);
+    ReviewEntity create(int userId, int menuId, List<Taste> tastes, String comment, Stamp stamp, String reviewImage);
 
 
     ReviewEntity update(int userId, int reviewId, List<String> imageUrls);

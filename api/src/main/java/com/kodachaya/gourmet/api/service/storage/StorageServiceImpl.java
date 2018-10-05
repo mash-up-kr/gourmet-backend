@@ -72,9 +72,7 @@ public class StorageServiceImpl implements StorageService {
     }
 
     @Override
-    public List<String> uploadMenuImages(List<MultipartFile> files) throws FileNotFoundException{
-        // create folder
-        String folderName = "menu";
+    public String uploadReviewImage(MultipartFile multipartFile) throws FileNotFoundException {
 
         UUID uuid = UUID.randomUUID();
         String UUIDStringFilePath = uuid.toString();
@@ -87,28 +85,52 @@ public class StorageServiceImpl implements StorageService {
 
         fos = new FileOutputStream(file);
         try {
-            for (MultipartFile i : files) {
-                fos.write(i.getBytes());
-            }
+            fos.write(multipartFile.getBytes());
+            fos.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
 
         try {
-            PutObjectRequest putObjectRequest =
-                    new PutObjectRequest(BUCKET_NAME, "menu/" + UUIDStringFilePath, file);
+            PutObjectRequest putObjectRequest = new PutObjectRequest(BUCKET_NAME, "review/" + UUIDStringFilePath, file);
             putObjectRequest.setCannedAcl(CannedAccessControlList.PublicRead);
             S3.putObject(putObjectRequest);
+            file.delete();
         } catch (AmazonServiceException e) {
             e.printStackTrace();
         }
 
-        String menuImageFileUrl;
-        menuImageFileUrl = END_POINT + "/" + BUCKET_NAME + "/menu/" + UUIDStringFilePath;
+        return END_POINT + "/" + BUCKET_NAME + "/review/" + UUIDStringFilePath;
+    }
 
-        List<String> menuImageFileUrlList = new ArrayList<>();
-        menuImageFileUrlList.add(menuImageFileUrl);
+    @Override
+    public String uploadWishImage(MultipartFile multipartFile) throws FileNotFoundException {
+        UUID uuid = UUID.randomUUID();
+        String UUIDStringFilePath = uuid.toString();
 
-        return menuImageFileUrlList;
+        // upload local file
+        String menuImageUrl = UUIDStringFilePath + ".jpg";
+
+        File file = new File(menuImageUrl);
+        FileOutputStream fos;
+
+        fos = new FileOutputStream(file);
+        try {
+            fos.write(multipartFile.getBytes());
+            fos.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            PutObjectRequest putObjectRequest = new PutObjectRequest(BUCKET_NAME, "wish/" + UUIDStringFilePath, file);
+            putObjectRequest.setCannedAcl(CannedAccessControlList.PublicRead);
+            S3.putObject(putObjectRequest);
+            file.delete();
+        } catch (AmazonServiceException e) {
+            e.printStackTrace();
+        }
+
+        return END_POINT + "/" + BUCKET_NAME + "/wish/" + UUIDStringFilePath;
     }
 }

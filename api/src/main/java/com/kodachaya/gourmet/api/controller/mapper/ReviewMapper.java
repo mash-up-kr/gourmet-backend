@@ -34,6 +34,7 @@ public class ReviewMapper {
         // set restaurant
         review.setRestaurant(RestaurantMapper.map(entity.getMenu().getRestaurant()));
 
+        review.setReviewImageUrl(entity.getReviewImage());
         return review;
     }
 

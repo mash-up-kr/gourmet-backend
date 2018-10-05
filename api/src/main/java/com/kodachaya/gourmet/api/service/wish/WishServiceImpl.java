@@ -47,7 +47,7 @@ public class WishServiceImpl implements WishService {
 
     @Transactional
     @Override
-    public WishEntity makeWish(int userId, MenuEntity menu) {
+    public WishEntity makeWish(int userId, MenuEntity menu, String wishImageUrl) {
         if (wishDao.findByMenu(menu).isPresent()) {
             throw new AlreadyExistsException("Already wished.");
         }
@@ -55,6 +55,7 @@ public class WishServiceImpl implements WishService {
         WishEntity wish = new WishEntity();
         wish.setUser(userDao.findById(userId).orElseThrow(() -> new NotFoundException("Not Found User")));
         wish.setMenu(menu);
+        wish.setWishImage(wishImageUrl);
         return wishDao.save(wish);
     }
 

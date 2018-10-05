@@ -18,6 +18,7 @@ public class ReviewModel {
     private RestaurantModel restaurant;
     private MenuModel menu;
     private List<Taste> menuTastes;
+    private String reviewImageUrl;
 
     public int getId() {
         return id;
@@ -65,6 +66,14 @@ public class ReviewModel {
 
     public void setMenuTastes(List<Taste> menuTastes) {
         this.menuTastes = menuTastes;
+    }
+
+    public String getReviewImageUrl() {
+        return reviewImageUrl;
+    }
+
+    public void setReviewImageUrl(String reviewImageUrl) {
+        this.reviewImageUrl = reviewImageUrl;
     }
 
     @Override

@@ -24,6 +24,8 @@ public class WishModel {
 
     private ReviewModel review;
 
+    private String wishImageUrl;
+
     public int getWishId() {
         return wishId;
     }
@@ -62,6 +64,14 @@ public class WishModel {
 
     public void setReview(ReviewModel review) {
         this.review = review;
+    }
+
+    public String getWishImageUrl() {
+        return wishImageUrl;
+    }
+
+    public void setWishImageUrl(String wishImageUrl) {
+        this.wishImageUrl = wishImageUrl;
     }
 
     @Override

@@ -67,7 +67,7 @@ public class ReviewServiceImpl implements ReviewService {
 
     @Override
     @Transactional
-    public ReviewEntity create(int userId, int menuId, List<Taste> tastes, String comment, Stamp stamp) {
+    public ReviewEntity create(int userId, int menuId, List<Taste> tastes, String comment, Stamp stamp, String reviewImageUrl) {
         UserEntity author = userDao.findById(userId).orElseThrow(() -> new NotFoundException("Not Found User"));
         MenuEntity menu = menuDao.findById(menuId).orElseThrow(() -> new NotFoundException("Not Found Menu"));
         StampEntity stampEntity = stampDao.findByExpression(stamp);
@@ -79,6 +79,7 @@ public class ReviewServiceImpl implements ReviewService {
         review.setComment(comment);
         review.setMenu(menu);
         review.setStamp(stampEntity);
+        review.setReviewImage(reviewImageUrl);
         return reviewDao.save(review);
 
 //        ReviewEntity savedReview = reviewDao.save(review);

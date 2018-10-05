@@ -28,6 +28,9 @@ public class WishMapper {
         if (entity.getReview() != null) {
             ReviewModel review = ReviewMapper.map(entity.getReview());
             wish.setReview(review);
+            wish.setWishImageUrl(review.getReviewImageUrl());
+        } else {
+            wish.setWishImageUrl(entity.getWishImage());
         }
         return wish;
     }

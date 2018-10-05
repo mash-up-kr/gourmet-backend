@@ -16,7 +16,7 @@ public interface WishService {
     boolean deleteWish(int wishId);
 
 
-    WishEntity makeWish(int userId, MenuEntity menu);
+    WishEntity makeWish(int userId, MenuEntity menu, String wishImage);
 
 
     WishEntity makeWish(int userId, int reviewId);

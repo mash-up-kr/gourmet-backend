@@ -11,6 +11,9 @@ public interface StorageService {
     String uploadProfile(MultipartFile file) throws FileNotFoundException;
 
 
-    List<String> uploadMenuImages(List<MultipartFile> files) throws FileNotFoundException;
+    String uploadReviewImage(MultipartFile file) throws FileNotFoundException;
+
+
+    String uploadWishImage(MultipartFile file) throws FileNotFoundException;
 
 }
