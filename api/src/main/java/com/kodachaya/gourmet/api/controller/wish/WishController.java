@@ -54,7 +54,7 @@ public class WishController {
 
 
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Success", response = ReviewModel.class),
+            @ApiResponse(code = 200, message = "Success", response = WishModel.class),
             @ApiResponse(code = 401, message = "Unauthorized"),
             @ApiResponse(code = 500, message = "Failure")})
     @RequestMapping(value = "/wish", method = RequestMethod.POST, consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
