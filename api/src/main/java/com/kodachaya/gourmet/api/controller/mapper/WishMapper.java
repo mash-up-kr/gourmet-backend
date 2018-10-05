@@ -25,9 +25,10 @@ public class WishMapper {
         wish.setRestaurant(restaurant);
 
         // set review
-        ReviewModel review = ReviewMapper.map(entity.getReview());
-        wish.setReview(review);
-
+        if (entity.getReview() != null) {
+            ReviewModel review = ReviewMapper.map(entity.getReview());
+            wish.setReview(review);
+        }
         return wish;
     }
 }

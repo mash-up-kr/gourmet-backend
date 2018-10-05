@@ -63,7 +63,7 @@ public class MeController {
     public @ResponseBody UserModel getMe() {
         String username = ((CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername();
         UserEntity entity = userService.get(username).orElseThrow(UnauthorizedException::new);
-        return UserMapper.map(entity, wishService.getWishCount(entity.getId()), reviewService.getReviewCount(entity.getId()));
+        return UserMapper.map(entity, reviewService.getReviewCount(entity.getId()), wishService.getWishCount(entity.getId()));
   }
 
 

@@ -20,7 +20,7 @@ public interface WishDao extends JpaRepository<WishEntity, Integer> {
     Optional<WishEntity> findByMenu(MenuEntity menu);
 
 
-    @Query(value = "SELECT count(*) from Review WHERE user_id = :userId", nativeQuery = true)
+    @Query(value = "SELECT count(*) from Wish WHERE user_id = :userId", nativeQuery = true)
     int getCountByUserId(@Param("userId") int userId);
 
 

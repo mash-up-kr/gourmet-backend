@@ -1,40 +1,34 @@
-package com.kodachaya.gourmet.api.dto.review.command;
+package com.kodachaya.gourmet.api.dto.wish.command;
 
-import com.kodachaya.gourmet.api.dto.Stamp;
 import com.kodachaya.gourmet.api.dto.menu.command.MenuPostCommand;
 import com.kodachaya.gourmet.api.dto.restaurant.command.RestaurantPostCommand;
 
-public class ReviewPostCommand {
+public class WishPostCommand {
 
     private RestaurantPostCommand restaurant;
     private MenuPostCommand menu;
-    private String comment;
-    private Stamp stamp;
 
     public RestaurantPostCommand getRestaurant() {
         return restaurant;
+    }
+
+    public void setRestaurant(RestaurantPostCommand restaurant) {
+        this.restaurant = restaurant;
     }
 
     public MenuPostCommand getMenu() {
         return menu;
     }
 
-    public String getComment() {
-        return comment;
+    public void setMenu(MenuPostCommand menu) {
+        this.menu = menu;
     }
-
-    public Stamp getStamp() {
-        return stamp;
-    }
-
 
     @Override
     public String toString() {
-        return "ReviewPostCommand{" +
+        return "WishPostCommand{" +
                 "restaurant=" + restaurant +
                 ", menu=" + menu +
-                ", comment='" + comment + '\'' +
-                ", stamp=" + stamp +
                 '}';
     }
 }

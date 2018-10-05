@@ -136,15 +136,7 @@ public class UserEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         UserEntity that = (UserEntity) o;
-        return id == that.id &&
-                isPublic == that.isPublic &&
-                Objects.equals(username, that.username) &&
-                Objects.equals(password, that.password) &&
-                Objects.equals(introduce, that.introduce) &&
-                Objects.equals(profile, that.profile) &&
-                Objects.equals(createdAt, that.createdAt) &&
-                Objects.equals(followings, that.followings) &&
-                Objects.equals(followers, that.followers);
+        return id == that.id;
     }
 
     @Override

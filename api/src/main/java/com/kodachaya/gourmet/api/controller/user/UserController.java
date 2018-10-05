@@ -1,5 +1,6 @@
 package com.kodachaya.gourmet.api.controller.user;
 
+import com.kodachaya.gourmet.api.config.CustomUserDetails;
 import com.kodachaya.gourmet.api.controller.mapper.UserMapper;
 import com.kodachaya.gourmet.api.dto.BaseListModel;
 import com.kodachaya.gourmet.api.dto.Stamp;
@@ -10,11 +11,15 @@ import com.kodachaya.gourmet.api.dto.review.Taste;
 import com.kodachaya.gourmet.api.dto.user.UserModel;
 import com.kodachaya.gourmet.api.entity.user.UserEntity;
 import com.kodachaya.gourmet.api.exception.NotFoundException;
+import com.kodachaya.gourmet.api.exception.UnauthorizedException;
+import com.kodachaya.gourmet.api.service.review.ReviewService;
 import com.kodachaya.gourmet.api.service.user.UserService;
+import com.kodachaya.gourmet.api.service.wish.WishService;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
@@ -27,6 +32,14 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+
+    @Autowired
+    private ReviewService reviewService;
+
+
+    @Autowired
+    private WishService wishService;
+
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Success"),
             @ApiResponse(code = 401, message = "Unauthorized"),
@@ -35,10 +48,8 @@ public class UserController {
     public @ResponseBody UserModel get(@PathVariable("userId") int userId) {
         UserEntity entity = userService.find(userId).orElseThrow(() -> new NotFoundException("Not found by userId"));
         UserModel user = UserMapper.map(entity);
-        user.setIsFollowing(new Random().nextInt() % 2 == 0);
-        user.setStampCount(100);
-        user.setWishCount(100);
-        user.setIntroduce("나는 행복합니다.");
+        user.setStampCount(reviewService.getReviewCount(user.getId()));
+        user.setWishCount(wishService.getWishCount(user.getId()));
         return user;
     }
 
@@ -49,7 +60,9 @@ public class UserController {
             @ApiResponse(code = 500, message = "Failure")})
     @RequestMapping(value = "/user/{userId}/follow", method = RequestMethod.POST)
     public @ResponseBody void follow(@PathVariable("userId") int userId, HttpServletResponse response) {
-        UserEntity entity = userService.find(userId).orElseThrow(() -> new NotFoundException("Not found by userId"));
+        String username = ((CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername();
+        UserEntity me = userService.get(username).orElseThrow(UnauthorizedException::new);
+        userService.follow(me.getId(), userId);
         response.setStatus(HttpStatus.NO_CONTENT.value());
     }
 
@@ -60,7 +73,9 @@ public class UserController {
             @ApiResponse(code = 500, message = "Failure")})
     @RequestMapping(value = "/user/{userId}/follow", method = RequestMethod.DELETE)
     public @ResponseBody void unfollow(@PathVariable("userId") int userId, HttpServletResponse response) {
-        UserEntity entity = userService.find(userId).orElseThrow(() -> new NotFoundException("Not found by userId"));
+        String username = ((CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername();
+        UserEntity me = userService.get(username).orElseThrow(UnauthorizedException::new);
+        userService.unfollow(me.getId(), userId);
         response.setStatus(HttpStatus.NO_CONTENT.value());
     }
 

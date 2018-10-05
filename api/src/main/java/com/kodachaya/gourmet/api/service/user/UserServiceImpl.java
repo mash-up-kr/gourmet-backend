@@ -9,6 +9,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -61,11 +62,39 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public boolean follow(int userId, int followUserId) {
-        return false;
+        UserEntity target = find(followUserId).orElseThrow(() -> new NotFoundException("Not found by userId"));
+        UserEntity actor = find(userId).orElseThrow(() -> new NotFoundException("Not found by userId"));
+
+        List<UserEntity> targetFollowers = target.getFollowers();
+        List<UserEntity> actorFollowings = actor.getFollowings();
+
+        targetFollowers.add(actor);
+        actorFollowings.add(target);
+
+        target.setFollowers(targetFollowers);
+        actor.setFollowings(actorFollowings);
+
+        dao.save(target);
+        dao.save(actor);
+        return true;
     }
 
     @Override
     public boolean unfollow(int userId, int followingUserId) {
-        return false;
+        UserEntity target = find(followingUserId).orElseThrow(() -> new NotFoundException("Not found by userId"));
+        UserEntity actor = find(userId).orElseThrow(() -> new NotFoundException("Not found by userId"));
+
+        List<UserEntity> targetFollowers = target.getFollowers();
+        List<UserEntity> actorFollowings = actor.getFollowings();
+
+        targetFollowers.remove(actor);
+        actorFollowings.remove(target);
+
+        target.setFollowers(targetFollowers);
+        actor.setFollowings(actorFollowings);
+
+        dao.save(target);
+        dao.save(actor);
+        return true;
     }
 }

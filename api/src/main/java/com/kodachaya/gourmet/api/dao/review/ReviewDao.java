@@ -12,6 +12,9 @@ public interface ReviewDao extends JpaRepository<ReviewEntity, Integer> {
 
     Page<ReviewEntity> findAllByAuthor(UserEntity author, Pageable pageable);
 
+    Page<ReviewEntity> findAll(Pageable pageable);
+
     @Query(value = "SELECT count(*) from Review WHERE user_id = :userId", nativeQuery = true)
     int getCountByAuthor(@Param("userId") int userId);
+
 }
